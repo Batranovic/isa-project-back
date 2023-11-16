@@ -6,6 +6,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Email;
+
 
 @Entity
 @Table(name = "USERS")
@@ -16,30 +19,39 @@ public class User {
 	private int id;
 	
 	@Column(name = "name", nullable = false)
+	@NotEmpty
 	private String name;
 	
 	@Column(name = "surname", nullable = false)
+	@NotEmpty
 	private String surname;
 	
 	@Column(name = "email", nullable = false, unique = true)
+	@Email(regexp = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")
 	private String email;
 	
 	@Column(name = "password", nullable = false)
+	@NotEmpty
 	private String password;
 	
 	@Column(name = "city", nullable = false)
+	@NotEmpty
 	private String city;
 	
 	@Column(name = "country", nullable = false)
+	@NotEmpty
 	private String country;
 	
 	@Column(name = "phone_number", nullable = false)
+	@NotEmpty
 	private String phoneNumber;
 	
 	@Column(name = "profession", nullable = false)
+	@NotEmpty
 	private String profession;
 	
 	@Column(name = "company_information", nullable = false)
+	@NotEmpty
 	private String companyInformation;
 
 	public User() {

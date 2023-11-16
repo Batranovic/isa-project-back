@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,12 +14,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.ISAproject.dto.RegistrationDTO;
 import com.example.ISAproject.dto.UserDto;
 import com.example.ISAproject.model.User;
 import com.example.ISAproject.service.UserService;
 
 @RestController
-@RequestMapping(value = "api/courses")
+@RequestMapping(value = "api/users")
+@CrossOrigin(origins = "http://localhost:4200")
 public class UserController {
 
 	@Autowired
@@ -64,6 +67,29 @@ public class UserController {
 		
 		user = userService.save(user);
 		return new ResponseEntity<>(new UserDto(user), HttpStatus.CREATED);
+	}
+	
+	@PostMapping(value = "/create", consumes = "application/json")
+	public ResponseEntity<RegistrationDTO> createUser(@RequestBody RegistrationDTO registrationDTO) {
+
+	    // Check if passwords match
+	    if (!registrationDTO.getPassword().equals(registrationDTO.getConfirmPassword())) {
+	        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	    }
+
+	    User user = new User();
+	    user.setName(registrationDTO.getName());
+	    user.setSurname(registrationDTO.getSurname());
+	    user.setEmail(registrationDTO.getEmail());
+	    user.setPassword(registrationDTO.getPassword());
+	    user.setCity(registrationDTO.getCity());
+	    user.setCountry(registrationDTO.getCountry());
+	    user.setPhoneNumber(registrationDTO.getPhoneNumber());
+	    user.setProfession(registrationDTO.getProfession());
+	    user.setCompanyInformation(registrationDTO.getCompanyInformation());
+
+	    user = userService.save(user); 
+	    return new ResponseEntity<>(new RegistrationDTO(user), HttpStatus.CREATED);
 	}
 
 }
