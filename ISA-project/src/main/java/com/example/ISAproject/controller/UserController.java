@@ -6,9 +6,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,9 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.ISAproject.dto.UserDto;
 import com.example.ISAproject.model.User;
 import com.example.ISAproject.service.UserService;
-
+@CrossOrigin
 @RestController
-@RequestMapping(value = "api/courses")
+@RequestMapping(value = "api/users")
 public class UserController {
 
 	@Autowired
@@ -64,6 +66,22 @@ public class UserController {
 		
 		user = userService.save(user);
 		return new ResponseEntity<>(new UserDto(user), HttpStatus.CREATED);
+	}
+	
+	@PutMapping(value = "/{id}",consumes = "application/json")
+	public ResponseEntity<UserDto> updateUser(@PathVariable Integer id, @RequestBody UserDto userDTO) {
+
+		if(id != userDTO.getId()) {
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+		}
+		
+		
+		User user = userService.update(userDTO);
+		if(user == null) {
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+		}
+		UserDto dto = new UserDto(user);
+		return new ResponseEntity<>(dto, HttpStatus.CREATED);
 	}
 
 }

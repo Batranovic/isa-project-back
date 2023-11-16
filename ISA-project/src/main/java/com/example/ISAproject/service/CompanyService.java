@@ -34,8 +34,8 @@ public class CompanyService {
 		List<Company> searchedCompanies = new ArrayList<Company>();
 		for (Company company : companies) {
 			if (company.getName().contains(searchDto.getName()) && company.getAddress().contains(searchDto.getAddress())
-					&& company.getAverageGrade() >= searchDto.getAverageGradeFrom()
-					&& company.getAverageGrade() <= searchDto.getAverageGradeTo()) {
+					&& (searchDto.getAverageGradeFrom() == 0 || company.getAverageGrade() >= searchDto.getAverageGradeFrom())
+					&& (searchDto.getAverageGradeTo() == 0 || company.getAverageGrade() <= searchDto.getAverageGradeTo())) {
 				searchedCompanies.add(company);
 			}
 		}
