@@ -75,7 +75,6 @@ public class UserController {
 			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 		}
 		
-		
 		User user = userService.update(userDTO);
 		if(user == null) {
 			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
