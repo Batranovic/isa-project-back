@@ -12,3 +12,4 @@ insert into users(name, surname, email, password, city, country, phone_number, p
 insert into users(name, surname, email, password, city, country, phone_number, profession, company_information) values ('ime4', 'prz4', 'email4', 'pass4', 'city4', 'country4', 'phone4', 'profession4', 'info4');
 insert into users(name, surname, email, password, city, country, phone_number, profession, company_information) values ('ime5', 'prz5', 'email5', 'pass5', 'city5', 'country5', 'phone5', 'profession5', 'info5');
 
+insert into equipments(name, equipment_type, description, quantity) values ('oprema', 'tip', 'Oprema', 5);

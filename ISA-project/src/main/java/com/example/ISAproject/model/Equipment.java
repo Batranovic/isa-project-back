@@ -19,8 +19,8 @@ public class Equipment {
 		@Column(name = "name", nullable = false)
 	    private String name;
 		
-		@Column(name = "type", nullable = false)
-	    private String type;
+		@Column(name = "equipment_type", nullable = false)
+	    private String equipmentType;
 		
 		@Column(name = "description", nullable = false)
 	    private String description;
@@ -34,7 +34,7 @@ public class Equipment {
 	        super();
 	        this.id = id;
 	        this.name = name;
-	        this.type = type;
+	        this.equipmentType = type;
 	        this.description = description;
 	        this.quantity = quantity;
 	    }
@@ -56,11 +56,11 @@ public class Equipment {
 	    }
 
 	    public String getType() {
-	        return type;
+	        return equipmentType;
 	    }
 
 	    public void setType(String type) {
-	        this.type = type;
+	        this.equipmentType = type;
 	    }
 
 	    public String getDescription() {
