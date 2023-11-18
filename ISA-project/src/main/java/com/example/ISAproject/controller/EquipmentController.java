@@ -16,7 +16,7 @@ import com.example.ISAproject.model.Equipment;
 import com.example.ISAproject.service.EquipmentService;
 
 @RestController
-@RequestMapping(value = "api/equimpents")
+@RequestMapping(value = "api/equipments")
 @CrossOrigin(origins = "http://localhost:4200")
 public class EquipmentController {
 
