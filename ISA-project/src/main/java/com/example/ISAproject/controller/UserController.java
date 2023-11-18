@@ -3,6 +3,8 @@ package com.example.ISAproject.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,14 +17,21 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.ISAproject.dto.RegistrationDTO;
 import com.example.ISAproject.dto.UserDto;
 import com.example.ISAproject.model.User;
+import com.example.ISAproject.service.EmailService;
 import com.example.ISAproject.service.UserService;
-@CrossOrigin
+
 @RestController
 @RequestMapping(value = "api/users")
+@CrossOrigin(origins = "http://localhost:4200")
 public class UserController {
+	
+	private Logger logger = LoggerFactory.getLogger(UserController.class);
 
+	@Autowired
+	private EmailService emailService;
 	@Autowired
 	private UserService userService;
 	
@@ -82,5 +91,54 @@ public class UserController {
 		UserDto dto = new UserDto(user);
 		return new ResponseEntity<>(dto, HttpStatus.CREATED);
 	}
+	@PostMapping(value = "/create", consumes = "application/json")
+	public ResponseEntity<RegistrationDTO> createUser(@RequestBody RegistrationDTO registrationDTO) {
+
+	    // Check if passwords match
+	    if (!registrationDTO.getPassword().equals(registrationDTO.getConfirmPassword())) {
+	        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	    }
+	    
+	    if (userService.findByEmail(registrationDTO.getEmail()) != null) {
+	        return new ResponseEntity<>(HttpStatus.CONFLICT); 
+	    }
+
+	    User user = new User();
+	    user.setName(registrationDTO.getName());
+	    user.setSurname(registrationDTO.getSurname());
+	    user.setEmail(registrationDTO.getEmail());
+	    user.setPassword(registrationDTO.getPassword());
+	    user.setCity(registrationDTO.getCity());
+	    user.setCountry(registrationDTO.getCountry());
+	    user.setPhoneNumber(registrationDTO.getPhoneNumber());
+	    user.setProfession(registrationDTO.getProfession());
+	    user.setCompanyInformation(registrationDTO.getCompanyInformation());
+	    user.setIsActive(false);
+
+		//slanje emaila
+		try {
+			System.out.println("Thread id: " + Thread.currentThread().getId());
+			emailService.sendNotificaitionAsync(user);
+		}catch( Exception e ){
+			logger.info("Greska prilikom slanja emaila: " + e.getMessage());
+		}
+		
+	    user = userService.save(user); 
+	    return new ResponseEntity<>(new RegistrationDTO(user), HttpStatus.CREATED);
+	}
+	
+	 @PostMapping(value = "/activate/{id}")
+	    public ResponseEntity<UserDto> activateUser(@PathVariable Integer id) {
+	        User user = userService.findOne(id);
+
+	        if (user == null) {
+	            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	        }
+
+	        user.setIsActive(true);
+	        userService.save(user);  
+	        return new ResponseEntity<>(new UserDto(user), HttpStatus.OK);
+	    }
+	
 
 }
