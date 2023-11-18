@@ -1,9 +1,9 @@
-insert into company (name, address, description,average_grade) values ('ime1', 'addr1', 'desdc1', 3.6);
-insert into company (name, address, description,average_grade) values ('ime2', 'addr2', 'desdc2', 2.6);
-insert into company (name, address, description,average_grade) values ('ime3', 'addr3', 'desdc3', 5.0);
-insert into company (name, address, description,average_grade) values ('ime4', 'addr4', 'desdc4', 2.2);
-insert into company (name, address, description,average_grade) values ('ime5', 'addr5', 'desdc5', 3.4);
-insert into company (name, address, description,average_grade) values ('ime6', 'addr6', 'desdc6', 4.1);
+insert into company (name, address, description,average_grade) values ('Company', 'Cirpanova', 'medicine', 3.6);
+insert into company (name, address, description,average_grade) values ('Medical', 'Takovska', 'oprema', 2.6);
+insert into company (name, address, description,average_grade) values ('Supplies', 'Futoska', 'oprema', 5.0);
+insert into company (name, address, description,average_grade) values ('Medicine', 'Bulevar', 'medical supplies', 2.2);
+insert into company (name, address, description,average_grade) values ('Company2', 'Jevrejska', 'description', 3.4);
+insert into company (name, address, description,average_grade) values ('New Med', 'Danila Kisa', 'new description', 4.1);
 
 
 insert into users (name, surname, email, password, city, country, phone_number, profession, company_information, is_active) values ('ime1', 'prz1', 'email1', 'pass1', 'city1', 'country1', 'phone1', 'profession1', 'info1', false);
@@ -12,4 +12,7 @@ insert into users(name, surname, email, password, city, country, phone_number, p
 insert into users(name, surname, email, password, city, country, phone_number, profession, company_information, is_active) values ('ime4', 'prz4', 'email4', 'pass4', 'city4', 'country4', 'phone4', 'profession4', 'info4',false);
 insert into users(name, surname, email, password, city, country, phone_number, profession, company_information, is_active) values ('ime5', 'prz5', 'email5', 'pass5', 'city5', 'country5', 'phone5', 'profession5', 'info5',false);
 
-insert into equipments(name, equipment_type, description, quantity) values ('oprema', 'tip', 'Oprema', 5);
+insert into equipments(name, equipment_type, description, quantity) values ('X-Ray Machine', 'Medical Imaging', 'Advanced X-ray equipment', 5);
+insert into equipments(name, equipment_type, description, quantity) values ('Hospital Bed', 'Furniture', 'Specialized bed for patients', 15);
+insert into equipments(name, equipment_type, description, quantity) values ('Surgical Instruments', 'Medical Tools', 'Various surgical instruments', 25);
+insert into equipments(name, equipment_type, description, quantity) values ('MRI Scanner', 'Medical Imaging', 'Magnetic Resonance Imaging machine', 3);
