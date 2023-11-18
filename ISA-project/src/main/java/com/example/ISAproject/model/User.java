@@ -53,6 +53,9 @@ public class User {
 	@Column(name = "company_information", nullable = false)
 	@NotEmpty
 	private String companyInformation;
+	
+	@Column(name="is_active", nullable = false)
+	private Boolean isActive;
 
 	public User() {
 		super();
@@ -137,5 +140,14 @@ public class User {
 	public void setCompanyInformation(String companyInformation) {
 		this.companyInformation = companyInformation;
 	}
+
+	public Boolean getIsActive() {
+		return isActive;
+	}
+
+	public void setIsActive(Boolean isActive) {
+		this.isActive = isActive;
+	}
+	
 
 }

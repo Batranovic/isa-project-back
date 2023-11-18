@@ -86,6 +86,10 @@ public class UserController {
 	    if (!registrationDTO.getPassword().equals(registrationDTO.getConfirmPassword())) {
 	        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	    }
+	    
+	    if (userService.findByEmail(registrationDTO.getEmail()) != null) {
+	        return new ResponseEntity<>(HttpStatus.CONFLICT); 
+	    }
 
 	    User user = new User();
 	    user.setName(registrationDTO.getName());
@@ -97,6 +101,7 @@ public class UserController {
 	    user.setPhoneNumber(registrationDTO.getPhoneNumber());
 	    user.setProfession(registrationDTO.getProfession());
 	    user.setCompanyInformation(registrationDTO.getCompanyInformation());
+	    user.setIsActive(false);
 
 		//slanje emaila
 		try {
@@ -105,10 +110,23 @@ public class UserController {
 		}catch( Exception e ){
 			logger.info("Greska prilikom slanja emaila: " + e.getMessage());
 		}
-
+		
 	    user = userService.save(user); 
 	    return new ResponseEntity<>(new RegistrationDTO(user), HttpStatus.CREATED);
 	}
+	
+	 @PostMapping(value = "/activate/{id}")
+	    public ResponseEntity<UserDto> activateUser(@PathVariable Integer id) {
+	        User user = userService.findOne(id);
+
+	        if (user == null) {
+	            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	        }
+
+	        user.setIsActive(true);
+	        userService.save(user);  
+	        return new ResponseEntity<>(new UserDto(user), HttpStatus.OK);
+	    }
 	
 
 }

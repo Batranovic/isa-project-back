@@ -14,6 +14,7 @@ public class RegistrationDTO {
 	private String phoneNumber;
 	private String profession;
 	private String companyInformation;
+	private Boolean isActive;
 
 	public RegistrationDTO() {
 
@@ -31,6 +32,7 @@ public class RegistrationDTO {
 		phoneNumber = user.getPhoneNumber();
 		profession = user.getProfession();
 		companyInformation = user.getCompanyInformation();
+		isActive = false;
 	}
 
 	public String getConfirmPassword() {
@@ -42,7 +44,7 @@ public class RegistrationDTO {
 	}
 
 	public RegistrationDTO(int id, String name, String surname, String email,String password,String confirmPassword, String city, String country,
-			String phoneNumber, String profession, String companyInformation) {
+			String phoneNumber, String profession, String companyInformation, Boolean isActive) {
 		this.id = id;
 		this.name = name;
 		this.surname = surname;
@@ -54,6 +56,7 @@ public class RegistrationDTO {
 		this.phoneNumber = phoneNumber;
 		this.profession = profession;
 		this.companyInformation = companyInformation;
+		this.isActive = isActive;
 	}
 
 
@@ -136,6 +139,15 @@ public class RegistrationDTO {
 	public void setCompanyInformation(String companyInformation) {
 		this.companyInformation = companyInformation;
 	}
+
+	public Boolean getIsActive() {
+		return isActive;
+	}
+
+	public void setIsActive(Boolean isActive) {
+		this.isActive = isActive;
+	}
+	
 
 }
 

@@ -30,10 +30,12 @@ public class EmailService {
 		mail.setTo(user.getEmail());
 		mail.setFrom(env.getProperty("spring.mail.username"));
 		mail.setSubject("Primer slanja emaila pomoću asinhronog Spring taska");
-		mail.setText("Pozdrav " + user.getName() + ",\n\nhvala što pratiš ISA. https://depositphotos.com/photos/welcome.html");
+		mail.setText("Pozdrav " + user.getName() + ",\n\nhvala što pratiš ISA. http://localhost:4200/activation-link/"+user.getId());
 		javaMailSender.send(mail);
+		
 
 		System.out.println("Email poslat!");
+		
 	}
 
 }
