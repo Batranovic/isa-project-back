@@ -66,6 +66,7 @@ public class UserController {
 		User user = new User();
 		user.setName(userDTO.getName());
 		user.setSurname(userDTO.getName());
+		user.setPassword(userDTO.getPassword());
 		user.setEmail(userDTO.getEmail());
 		user.setCity(userDTO.getCity());
 		user.setCountry(userDTO.getCountry());

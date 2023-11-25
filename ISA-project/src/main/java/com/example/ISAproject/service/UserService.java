@@ -30,6 +30,7 @@ public class UserService {
 		}
 		user.setName(dto.getName());
 		user.setSurname(dto.getSurname());
+		user.setPassword(dto.getPassword());
 		user.setCity(dto.getCity());
 		user.setCountry(dto.getCountry());
 		user.setPhoneNumber(dto.getPhoneNumber());
