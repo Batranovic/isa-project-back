@@ -1,18 +1,32 @@
 package com.example.ISAproject.model;
 
+import java.sql.Timestamp;
+import java.util.Collection;
+import java.util.List;
+
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
 
 
 @Entity
 @Table(name = "USERS")
-public class User {
+public class User implements UserDetails {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,9 +44,13 @@ public class User {
 	@Email(regexp = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")
 	private String email;
 	
+    @JsonIgnore
 	@Column(name = "password", nullable = false)
 	@NotEmpty
 	private String password;
+    
+    @Column(name = "last_password_reset_date")
+    private Timestamp lastPasswordResetDate;
 	
 	@Column(name = "city", nullable = false)
 	@NotEmpty
@@ -56,6 +74,12 @@ public class User {
 	
 	@Column(name="is_active", nullable = false)
 	private Boolean isActive;
+	
+	@ManyToMany(fetch = FetchType.EAGER)
+  	@JoinTable(name = "user_role",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+    private List<Role> roles;
 
 	public User() {
 		super();
@@ -99,6 +123,24 @@ public class User {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	
+
+	public Timestamp getLastPasswordResetDate() {
+		return lastPasswordResetDate;
+	}
+
+	public void setLastPasswordResetDate(Timestamp lastPasswordResetDate) {
+		this.lastPasswordResetDate = lastPasswordResetDate;
+	}
+
+	public List<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
 	}
 
 	public String getCity() {
@@ -147,6 +189,36 @@ public class User {
 
 	public void setIsActive(Boolean isActive) {
 		this.isActive = isActive;
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return this.roles;
+	}
+
+	@Override
+	public String getUsername() {
+		return email;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return isActive;
 	}
 	
 

@@ -61,21 +61,22 @@ public class UserController {
 	}
 	
 	@PostMapping(consumes = "application/json")
-	public ResponseEntity<UserDto> saveUser(@RequestBody UserDto userDTO) {
-
+	public ResponseEntity<UserDto> saveUser(@RequestBody RegistrationDTO registrationDTO) {
+		/*
 		User user = new User();
-		user.setName(userDTO.getName());
-		user.setSurname(userDTO.getName());
-		user.setPassword(userDTO.getPassword());
-		user.setEmail(userDTO.getEmail());
-		user.setCity(userDTO.getCity());
-		user.setCountry(userDTO.getCountry());
-		user.setPhoneNumber(userDTO.getPhoneNumber());
-		user.setProfession(userDTO.getProfession());
-		user.setCompanyInformation(userDTO.getCompanyInformation());
+		user.setName(registrationDTO.getName());
+		user.setSurname(registrationDTO.getName());
+		user.setPassword(registrationDTO.getPassword());
+		user.setEmail(registrationDTO.getEmail());
+		user.setCity(registrationDTO.getCity());
+		user.setCountry(registrationDTO.getCountry());
+		user.setPhoneNumber(registrationDTO.getPhoneNumber());
+		user.setProfession(registrationDTO.getProfession());
+		user.setCompanyInformation(registrationDTO.getCompanyInformation());
+		*/
 		
-		user = userService.save(user);
-		return new ResponseEntity<>(new UserDto(user), HttpStatus.CREATED);
+		userService.save(registrationDTO);
+		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 	
 	@PutMapping(value = "/{id}",consumes = "application/json")
@@ -104,6 +105,7 @@ public class UserController {
 	        return new ResponseEntity<>(HttpStatus.CONFLICT); 
 	    }
 
+	    /*
 	    User user = new User();
 	    user.setName(registrationDTO.getName());
 	    user.setSurname(registrationDTO.getSurname());
@@ -115,30 +117,25 @@ public class UserController {
 	    user.setProfession(registrationDTO.getProfession());
 	    user.setCompanyInformation(registrationDTO.getCompanyInformation());
 	    user.setIsActive(false);
-
+	     */
+	    userService.save(registrationDTO); 
+	    
 		//slanje emaila
 		try {
 			System.out.println("Thread id: " + Thread.currentThread().getId());
-			emailService.sendNotificaitionAsync(user);
+			emailService.sendNotificaitionAsync(registrationDTO);
+			System.out.println("Reg id: " + registrationDTO.getId());
 		}catch( Exception e ){
 			logger.info("Greska prilikom slanja emaila: " + e.getMessage());
 		}
 		
-	    user = userService.save(user); 
-	    return new ResponseEntity<>(new RegistrationDTO(user), HttpStatus.CREATED);
+	    return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 	
 	 @PostMapping(value = "/activate/{id}")
 	    public ResponseEntity<UserDto> activateUser(@PathVariable Integer id) {
-	        User user = userService.findOne(id);
-
-	        if (user == null) {
-	            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-	        }
-
-	        user.setIsActive(true);
-	        userService.save(user);  
-	        return new ResponseEntity<>(new UserDto(user), HttpStatus.OK);
+	        userService.activateUser(id);
+	        return new ResponseEntity<>(HttpStatus.OK);
 	    }
 	
 
