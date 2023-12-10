@@ -83,15 +83,15 @@ public class WebSecurityConfig {
         
         // sve neautentifikovane zahteve obradi uniformno i posalji 401 gresku	
         http.exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint);
-    	http.authorizeRequests().requestMatchers("/auth/login").permitAll()		// /auth/**
-			.requestMatchers("/h2-console/").permitAll()	// /h2-console/* ako se koristi H2 baza)
-			.requestMatchers("/api/foo").permitAll()
-			.requestMatchers("/api/companies/all").permitAll()
-			.requestMatchers("/api/companies/search").permitAll()
-			.requestMatchers("/api/users/create").permitAll()
-			.requestMatchers("/api/users/activate/*").permitAll()
-			.requestMatchers("/api/equipments/all").permitAll()
-			.requestMatchers("/v3/api-docs").permitAll()		// /api/foo
+    	http.authorizeRequests().antMatchers("api/auth/login").permitAll()		// /auth/**
+			.antMatchers("/h2-console/").permitAll()	// /h2-console/* ako se koristi H2 baza)
+			.antMatchers("/api/companies/all").permitAll()
+			.antMatchers("/api/companies/search").permitAll()
+			.antMatchers("/api/users/create").permitAll()
+			.antMatchers("/api/users/activate/*").permitAll()
+			.antMatchers("/api/equipments/all").permitAll()
+			.antMatchers("/v3/api-docs").permitAll()
+			.antMatchers("/api/auth/*").permitAll()
 			// ukoliko ne zelimo da koristimo @PreAuthorize anotacije nad metodama kontrolera, moze se iskoristiti hasRole() metoda da se ogranici
 			// koji tip korisnika moze da pristupi odgovarajucoj ruti. Npr. ukoliko zelimo da definisemo da ruti 'admin' moze da pristupi
 			// samo korisnik koji ima rolu 'ADMIN', navodimo na sledeci nacin: 
@@ -121,11 +121,11 @@ public class WebSecurityConfig {
     	// Autentifikacija ce biti ignorisana ispod navedenih putanja (kako bismo ubrzali pristup resursima)
     	// Zahtevi koji se mecuju za web.ignoring().antMatchers() nemaju pristup SecurityContext-u
     	// Dozvoljena POST metoda na ruti /auth/login, za svaki drugi tip HTTP metode greska je 401 Unauthorized
-    	return (web) -> web.ignoring().requestMatchers(HttpMethod.POST, "/auth/login")
+    	return (web) -> web.ignoring().antMatchers(HttpMethod.POST, "/auth/login")
     			
     			
     			// Ovim smo dozvolili pristup statickim resursima aplikacije
-    			.requestMatchers(HttpMethod.GET, "/", "/swagger-ui/","/v3/api-docs/", "/webjars/", "/.html", "favicon.ico",
+    			.antMatchers(HttpMethod.GET, "/", "/swagger-ui/","/v3/api-docs/", "/webjars/", "/.html", "favicon.ico",
     			"//.html", "//.css", "//.js");	 
 
     }
