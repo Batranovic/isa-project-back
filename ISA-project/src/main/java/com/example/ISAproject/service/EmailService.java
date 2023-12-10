@@ -23,15 +23,15 @@ public class EmailService {
 	
 	
 	@Async
-	public void sendNotificaitionAsync(RegistrationDTO registrationDto) throws MailException, InterruptedException {
+	public void sendNotificaitionAsync(User user) throws MailException, InterruptedException {
 	//Simulacija duze aktivnosti da bi se uocila razlika
 		Thread.sleep(10000);
 		System.out.println("Slanje emaila...");
 		SimpleMailMessage mail = new SimpleMailMessage();
-		mail.setTo(registrationDto.getEmail());
+		mail.setTo(user.getEmail());
 		mail.setFrom(env.getProperty("spring.mail.username"));
 		mail.setSubject("Primer slanja emaila pomoću asinhronog Spring taska");
-		mail.setText("Pozdrav " + registrationDto.getName() + ",\n\nhvala što pratiš ISA. http://localhost:4200/activation-link/"+registrationDto.getId());
+		mail.setText("Pozdrav " + user.getName() + ",\n\nhvala što pratiš ISA. http://localhost:4200/activation-link/"+user.getId());
 		javaMailSender.send(mail);
 		
 

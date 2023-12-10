@@ -118,12 +118,12 @@ public class UserController {
 	    user.setCompanyInformation(registrationDTO.getCompanyInformation());
 	    user.setIsActive(false);
 	     */
-	    userService.save(registrationDTO); 
 	    
+	    User user = userService.save(registrationDTO);
 		//slanje emaila
 		try {
 			System.out.println("Thread id: " + Thread.currentThread().getId());
-			emailService.sendNotificaitionAsync(registrationDTO);
+			emailService.sendNotificaitionAsync(user);
 			System.out.println("Reg id: " + registrationDTO.getId());
 		}catch( Exception e ){
 			logger.info("Greska prilikom slanja emaila: " + e.getMessage());
