@@ -1,5 +1,6 @@
 package com.example.ISAproject.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -124,7 +126,6 @@ public class UserController {
 		try {
 			System.out.println("Thread id: " + Thread.currentThread().getId());
 			emailService.sendNotificaitionAsync(user);
-			System.out.println("Reg id: " + registrationDTO.getId());
 		}catch( Exception e ){
 			logger.info("Greska prilikom slanja emaila: " + e.getMessage());
 		}
@@ -137,6 +138,9 @@ public class UserController {
 	        userService.activateUser(id);
 	        return new ResponseEntity<>(HttpStatus.OK);
 	    }
-	
 
+	 @GetMapping("/getByEmail/{email}")
+	    public User user(@PathVariable String email) {
+	        return this.userService.findByEmail(email);
+	    }
 }

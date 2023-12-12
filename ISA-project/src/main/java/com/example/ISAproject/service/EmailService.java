@@ -30,7 +30,7 @@ public class EmailService {
 		SimpleMailMessage mail = new SimpleMailMessage();
 		mail.setTo(user.getEmail());
 		mail.setFrom(env.getProperty("spring.mail.username"));
-		mail.setSubject("Primer slanja emaila pomoću asinhronog Spring taska");
+		mail.setSubject("Registruj se");
 		mail.setText("Pozdrav " + user.getName() + ",\n\nhvala što pratiš ISA. http://localhost:4200/activation-link/"+user.getId());
 		javaMailSender.send(mail);
 		

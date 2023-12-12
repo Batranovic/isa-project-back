@@ -31,7 +31,7 @@ import com.example.ISAproject.model.User;
 
 
 @RestController
-@RequestMapping(value = "api/auth", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/auth", produces = MediaType.APPLICATION_JSON_VALUE)
 @CrossOrigin(origins = "http://localhost:4200")
 public class AuthenticationController {
 
@@ -46,7 +46,7 @@ public class AuthenticationController {
 	
 	// Prvi endpoint koji pogadja korisnik kada se loguje.
 	// Tada zna samo svoje korisnicko ime i lozinku i to prosledjuje na backend.
-	@PostMapping("/login")
+	@PostMapping(value = "/login")
 	public ResponseEntity<UserTokenState> createAuthenticationToken(
 			@RequestBody JwtAuthenticationRequest authenticationRequest, HttpServletResponse response) {
 		// Ukoliko kredencijali nisu ispravni, logovanje nece biti uspesno, desice se
@@ -60,7 +60,7 @@ public class AuthenticationController {
 
 		// Kreiraj token za tog korisnika
 		User user = (User) authentication.getPrincipal();
-		String jwt = tokenUtils.generateToken(user.getUsername());
+		String jwt = tokenUtils.generateToken(user.getEmail()); ///PROVERI
 		int expiresIn = tokenUtils.getExpiredIn();
 
 		// Vrati token kao odgovor na uspesnu autentifikaciju
