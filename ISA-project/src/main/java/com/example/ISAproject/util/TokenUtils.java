@@ -1,5 +1,7 @@
 package com.example.ISAproject.util;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,6 +13,8 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+
+import com.example.ISAproject.model.Role;
 import com.example.ISAproject.model.User;
 
 // Utility klasa za rad sa JSON Web Tokenima
@@ -54,19 +58,23 @@ public class TokenUtils {
 	 * @param username Korisničko ime korisnika kojem se token izdaje
 	 * @return JWT token
 	 */
-	public String generateToken(String email, int id) {
-		return Jwts.builder()
-				.setIssuer(APP_NAME)
-				.setSubject(email)
-				.claim("id", id)
-				.setAudience(generateAudience())
-				.setIssuedAt(new Date())
-				.setExpiration(generateExpirationDate())
-				.signWith(SIGNATURE_ALGORITHM, SECRET).compact();
-		
+	public String generateToken(User user) {
+	    List<String> roles = user.getRoles().stream()
+	            .map(Role::getName)
+	            .collect(Collectors.toList());
 
-		// moguce je postavljanje proizvoljnih podataka u telo JWT tokena pozivom funkcije .claim("key", value), npr. .claim("role", user.getRole())
+	    return Jwts.builder()
+	            .setIssuer(APP_NAME)
+	            .setSubject(user.getEmail())
+	            .claim("id", user.getId())
+	            .claim("roles", roles)  // Add roles as a claim
+	            .setAudience(generateAudience())
+	            .setIssuedAt(new Date())
+	            .setExpiration(generateExpirationDate())
+	            .signWith(SIGNATURE_ALGORITHM, SECRET)
+	            .compact();
 	}
+
 	
 	/**
 	 * Funkcija za utvrđivanje tipa uređaja za koji se JWT kreira.

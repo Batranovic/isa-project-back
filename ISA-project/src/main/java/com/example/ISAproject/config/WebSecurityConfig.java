@@ -87,6 +87,7 @@ public class WebSecurityConfig {
 			.antMatchers("/h2-console/").permitAll()	// /h2-console/* ako se koristi H2 baza)
 			.antMatchers("/api/companies/all").permitAll()
 			.antMatchers("/api/companies/search").permitAll()
+			.antMatchers("/api/companies/*").permitAll()
 			.antMatchers("/api/users/create").permitAll()
 			.antMatchers("/api/users/activate/*").permitAll()
 			.antMatchers("/api/equipments/all").permitAll()
