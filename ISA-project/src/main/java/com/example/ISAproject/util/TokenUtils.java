@@ -67,7 +67,7 @@ public class TokenUtils {
 	            .setIssuer(APP_NAME)
 	            .setSubject(user.getEmail())
 	            .claim("id", user.getId())
-	            .claim("roles", roles)  // Add roles as a claim
+	            .claim("roles", roles) 
 	            .setAudience(generateAudience())
 	            .setIssuedAt(new Date())
 	            .setExpiration(generateExpirationDate())

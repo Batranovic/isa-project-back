@@ -19,7 +19,8 @@ insert into equipments(name, equipment_type, description, quantity) values ('MRI
 
 
 INSERT INTO ROLE (name) VALUES ('ROLE_USER');
-INSERT INTO ROLE (name) VALUES ('ROLE_ADMIN'); --dodati ostale potrebne usere
+INSERT INTO ROLE (name) VALUES ('ROLE_COMPANY_ADMIN'); --dodati ostale potrebne usere
+INSERT INTO ROLE (name) VALUES ('ROLE_SYSTEM_ADMIN');
 
 INSERT INTO USER_ROLE (user_id, role_id) VALUES (1, 1); -- user-u dodeljujemo rolu USER
 INSERT INTO USER_ROLE (user_id, role_id) VALUES (2, 1); -- admin-u dodeljujemo rolu USER

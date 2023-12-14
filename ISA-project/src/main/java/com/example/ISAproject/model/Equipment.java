@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -25,7 +27,7 @@ public class Equipment {
 		
 		@Column(name = "quantity", nullable = false)
 	    private int quantity;
-
+		
 	    public Equipment() { }
 
 	    public Equipment(int id, String name, String type, String description, int quantity) {
