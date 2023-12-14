@@ -38,7 +38,7 @@ public class Company {
 	@Column(name = "average_grade", nullable = false)
 	private double averageGrade;
 	
-	@OneToMany
+	@OneToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "company_equipment",
 	    joinColumns = @JoinColumn(name = "company_id", referencedColumnName = "id"),
 	    inverseJoinColumns = @JoinColumn(name = "equipment_id", referencedColumnName = "id"))

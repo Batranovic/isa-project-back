@@ -2,6 +2,10 @@ package com.example.ISAproject.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,7 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.ISAproject.dto.CompanyDto;
 import com.example.ISAproject.dto.CompanySearchDto;
+import com.example.ISAproject.dto.EquipmentDTO;
 import com.example.ISAproject.model.Company;
+import com.example.ISAproject.model.Equipment;
 import com.example.ISAproject.service.CompanyService;
 
 @RestController
@@ -79,5 +85,19 @@ public class CompanyController {
 		return new ResponseEntity<>(dtos, HttpStatus.CREATED);
 	}
 
+	@GetMapping(value = "/equipments/{companyId}")
+    public ResponseEntity<Set<EquipmentDTO>> getEquipmentsForCompany(@PathVariable Integer companyId) {
+        Set<Equipment> equipments = companyService.getEquipmentsForCompany(companyId);
+
+        if (equipments.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        Set<EquipmentDTO> equipmentDTOs = equipments.stream()
+                .map(EquipmentDTO::new)
+                .collect(Collectors.toSet());
+
+        return new ResponseEntity<>(equipmentDTOs, HttpStatus.OK);
+    }
 
 }

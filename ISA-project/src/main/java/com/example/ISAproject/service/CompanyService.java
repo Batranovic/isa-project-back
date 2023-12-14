@@ -1,14 +1,19 @@
 package com.example.ISAproject.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.ISAproject.dto.CompanySearchDto;
+import com.example.ISAproject.dto.EquipmentDTO;
 import com.example.ISAproject.model.Company;
 import com.example.ISAproject.repository.CompanyRepository;
+import com.example.ISAproject.model.Equipment;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class CompanyService {
@@ -30,6 +35,7 @@ public class CompanyService {
 
 	public List<Company> search(CompanySearchDto searchDto) {
 
+
 		List<Company> companies = companyRepository.findAll();
 		List<Company> searchedCompanies = new ArrayList<Company>();
 		for (Company company : companies) {
@@ -41,4 +47,14 @@ public class CompanyService {
 		}
 		return searchedCompanies;
 	}
+	public Set<Equipment> getEquipmentsForCompany(int companyId) {
+        Company company = companyRepository.findById(companyId).orElse(null);
+
+        if (company == null) {
+            return Collections.emptySet();
+        }
+
+        return company.getEquipments();
+    }
+	
 }
