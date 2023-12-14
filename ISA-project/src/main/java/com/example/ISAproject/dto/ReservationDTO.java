@@ -14,7 +14,9 @@ public class ReservationDTO {
     private Set<EquipmentDTO> equipment;
     private AppointmentDTO appointment;
 
-  
+   public ReservationDTO() {
+	   
+   }
     public ReservationDTO(int id, ReservationStatus status, Set<EquipmentDTO> equipment, AppointmentDTO appointment) {
 		super();
 		this.id = id;

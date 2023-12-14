@@ -9,7 +9,7 @@ public class CompanyAdminDTO {
 	private CompanyDto company;
 	
 	public CompanyAdminDTO() {
-		super();
+		
 	}
 
 	public CompanyAdminDTO(int id, UserDto user, CompanyDto company) {
@@ -19,12 +19,15 @@ public class CompanyAdminDTO {
 		this.company = company;
 	}
 	
-	public CompanyAdminDTO(CompanyAdmin companyAdmin)
-	{
-		this.id = companyAdmin.getId();
-		this.user =  new UserDto(companyAdmin.getUser());
-		this.company = new CompanyDto(companyAdmin.getCompany());
-		
+	public CompanyAdminDTO(CompanyAdmin companyAdmin) {
+	    if (companyAdmin != null) {
+	        this.id = companyAdmin.getId();
+	        this.user = new UserDto(companyAdmin.getUser());
+	        this.company = new CompanyDto(companyAdmin.getCompany());
+	    } else {
+	    	System.out.println("Warning: companyAdmin is null. Default values or appropriate handling needed.");
+	        
+	    }
 	}
 
 	public int getId() {

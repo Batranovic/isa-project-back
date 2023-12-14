@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.ISAproject.dto.CompanySearchDto;
 import com.example.ISAproject.dto.EquipmentDTO;
+import com.example.ISAproject.model.Appointment;
 import com.example.ISAproject.model.Company;
 import com.example.ISAproject.repository.CompanyRepository;
 import com.example.ISAproject.model.Equipment;
@@ -55,6 +56,16 @@ public class CompanyService {
         }
 
         return company.getEquipments();
+    }
+	
+	public Set<Appointment> getAppointmentsForCompany(int companyId) {
+        Company company = companyRepository.findById(companyId).orElse(null);
+
+        if (company == null) {
+            return Collections.emptySet();
+        }
+
+        return company.getAppointments();
     }
 	
 }

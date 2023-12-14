@@ -44,7 +44,7 @@ public class Company {
 	    inverseJoinColumns = @JoinColumn(name = "equipment_id", referencedColumnName = "id"))
     private Set<Equipment> equipments = new HashSet<Equipment>();
     
-	@OneToMany
+	@OneToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "company_appointment",
 	    joinColumns = @JoinColumn(name = "company_id", referencedColumnName = "id"),
 	    inverseJoinColumns = @JoinColumn(name = "appointment_id", referencedColumnName = "id"))
@@ -53,6 +53,8 @@ public class Company {
 	
 	public Company() {
 		super();
+		this.equipments = new HashSet<>();
+	    this.appointments = new HashSet<>();
 	}
 
 

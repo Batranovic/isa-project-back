@@ -92,6 +92,7 @@ public class WebSecurityConfig {
 			.antMatchers("/api/companies/**").permitAll()
 			.antMatchers("/api/users/activate/*").permitAll()
 			.antMatchers("/api/equipments/all").permitAll()
+			.antMatchers("/api/reservations/**").permitAll()
 			.antMatchers("/v3/api-docs").permitAll()
 			.antMatchers("/api/users/getByEmail/*").permitAll()
 			.antMatchers("/api/users/**").permitAll()

@@ -19,9 +19,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.ISAproject.dto.AppointmentDTO;
 import com.example.ISAproject.dto.CompanyDto;
 import com.example.ISAproject.dto.CompanySearchDto;
 import com.example.ISAproject.dto.EquipmentDTO;
+import com.example.ISAproject.model.Appointment;
 import com.example.ISAproject.model.Company;
 import com.example.ISAproject.model.Equipment;
 import com.example.ISAproject.service.CompanyService;
@@ -98,6 +100,21 @@ public class CompanyController {
                 .collect(Collectors.toSet());
 
         return new ResponseEntity<>(equipmentDTOs, HttpStatus.OK);
+    }
+	
+	@GetMapping(value = "/appointments/{companyId}")
+    public ResponseEntity<Set<AppointmentDTO>> getAppointmentsForCompany(@PathVariable Integer companyId) {
+        Set<Appointment> appointments = companyService.getAppointmentsForCompany(companyId);
+
+        if (appointments.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        Set<AppointmentDTO> appointmentDTOs = appointments.stream()
+                .map(AppointmentDTO::new)
+                .collect(Collectors.toSet());
+
+        return new ResponseEntity<>(appointmentDTOs, HttpStatus.OK);
     }
 
 }

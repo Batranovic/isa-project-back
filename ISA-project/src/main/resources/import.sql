@@ -18,6 +18,18 @@ insert into equipments(name, equipment_type, description, quantity) values ('Sur
 insert into equipments(name, equipment_type, description, quantity) values ('MRI Scanner', 'Medical Imaging', 'Magnetic Resonance Imaging machine', 3);
 
 
+insert into company_admins(company_id, user_id) values (1, 1);
+
+INSERT INTO appointments(start_date, duration, status, admin_id) VALUES ('2023-10-10 10:00:00', 100, 0, 1);
+INSERT INTO appointments(start_date, duration, status, admin_id) VALUES ('2023-10-10 11:00:00', 90, 0, 1);
+
+insert into company_appointment(company_id, appointment_id) values (1,1);
+insert into company_appointment(company_id, appointment_id) values (1,2);
+
+insert into company_equipment(company_id, equipment_id) values (1, 1);
+insert into company_equipment(company_id, equipment_id) values (1, 2);
+insert into company_equipment(company_id, equipment_id) values (1, 3);
+	
 INSERT INTO ROLE (name) VALUES ('ROLE_USER');
 INSERT INTO ROLE (name) VALUES ('ROLE_COMPANY_ADMIN'); --dodati ostale potrebne usere
 INSERT INTO ROLE (name) VALUES ('ROLE_SYSTEM_ADMIN');

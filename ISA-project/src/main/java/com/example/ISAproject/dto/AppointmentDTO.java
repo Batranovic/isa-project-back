@@ -7,8 +7,8 @@ import com.example.ISAproject.model.Appointment;
 
 public class AppointmentDTO {
 	private int id;
-    private CompanyAdminDTO companyAdministrator;
-	private LocalDateTime startDate;
+    private CompanyAdminDTO companyAdmin;
+	private LocalDateTime dateAndTime;
 	private int duration;
     private AppointmentStatus status;
     
@@ -16,12 +16,12 @@ public class AppointmentDTO {
     	
     }
     
-	public AppointmentDTO(int id, CompanyAdminDTO companyAdministrator, LocalDateTime startDate, int duration,
+	public AppointmentDTO(int id, CompanyAdminDTO companyAdmin, LocalDateTime dateAndTime, int duration,
 			AppointmentStatus status) {
 		super();
 		this.id = id;
-		this.companyAdministrator = companyAdministrator;
-		this.startDate = startDate;
+		this.companyAdmin = companyAdmin;
+		this.dateAndTime = dateAndTime;
 		this.duration = duration;
 		this.status = status;
 	} 
@@ -29,8 +29,8 @@ public class AppointmentDTO {
 	public AppointmentDTO(Appointment appointment)
 	{
 		this.id = appointment.getId();
-		this.companyAdministrator = new CompanyAdminDTO(appointment.getCompanyAdmin());
-		this.startDate = appointment.getDateAndTime();
+		this.companyAdmin = new CompanyAdminDTO(appointment.getCompanyAdmin());
+		this.dateAndTime = appointment.getDateAndTime();
 		this.duration = appointment.getDuration();
 		this.status = appointment.getStatus();
 	}
@@ -43,20 +43,21 @@ public class AppointmentDTO {
 		this.id = id;
 	}
 
-	public CompanyAdminDTO getCompanyAdministrator() {
-		return companyAdministrator;
+	public CompanyAdminDTO getCompanyAdmin() {
+		return companyAdmin;
 	}
 
-	public void setCompanyAdministrator(CompanyAdminDTO companyAdministrator) {
-		this.companyAdministrator = companyAdministrator;
+	public void setCompanyAdmin(CompanyAdminDTO companyAdmin) {
+		this.companyAdmin = companyAdmin;
 	}
 
-	public LocalDateTime getStartDate() {
-		return startDate;
+
+	public LocalDateTime getDateAndTime() {
+		return dateAndTime;
 	}
 
-	public void setStartDate(LocalDateTime startDate) {
-		this.startDate = startDate;
+	public void setDateAndTime(LocalDateTime dateAndTime) {
+		this.dateAndTime = dateAndTime;
 	}
 
 	public int getDuration() {
