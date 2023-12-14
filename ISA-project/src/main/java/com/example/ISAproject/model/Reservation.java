@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -39,14 +40,21 @@ public class Reservation {
     @JoinColumn(name = "appointment_id")
     private Appointment appointment;
 
+    @ManyToOne
+    @JoinTable(name = "reservation_user",
+	    joinColumns = @JoinColumn(name = "reservation_id", referencedColumnName = "id"),
+	    inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
+    private User user;
+    
     public Reservation() { }
 
-	public Reservation(int id, ReservationStatus status, Set<Equipment> equipments, Appointment appointment) {
+	public Reservation(int id, ReservationStatus status, Set<Equipment> equipments, Appointment appointment, User user) {
 		super();
 		this.id = id;
 		this.status = status;
 		this.equipments = equipments;
 		this.appointment = appointment;
+		this.user = user;
 	}
 
 	public int getId() {
@@ -79,6 +87,14 @@ public class Reservation {
 
 	public void setAppointment(Appointment appointment) {
 		this.appointment = appointment;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 

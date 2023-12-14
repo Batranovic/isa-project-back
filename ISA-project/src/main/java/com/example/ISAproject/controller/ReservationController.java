@@ -31,12 +31,13 @@ public class ReservationController {
 	@Autowired
 	private ReservationService reservationService;
 	
-	@PostMapping("/create/{appointmnetId}/{equipmentId}")
+	@PostMapping("/create/{appointmnetId}/{equipmentId}/{userId}")
     public ResponseEntity<ReservationDTO> createReservation(
             @PathVariable Integer appointmnetId,
-            @PathVariable Integer equipmentId) {
+            @PathVariable Integer equipmentId,
+            @PathVariable Integer userId) {
 
-        Reservation reservation = reservationService.createReservation(appointmnetId, equipmentId);
+        Reservation reservation = reservationService.createReservation(appointmnetId, equipmentId, userId);
 
         if (reservation != null) {
             ReservationDTO createdReservationDTO = new ReservationDTO(reservation);
