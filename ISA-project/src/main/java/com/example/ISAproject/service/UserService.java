@@ -31,6 +31,7 @@ public class UserService {
 		user.setName(dto.getName());
 		user.setSurname(dto.getSurname());
 		user.setCity(dto.getCity());
+		user.setPassword(dto.getPassword());
 		user.setCountry(dto.getCountry());
 		user.setPhoneNumber(dto.getPhoneNumber());
 		user.setProfession(dto.getProfession());
@@ -53,11 +54,5 @@ public class UserService {
 	public User findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
-		
-
-		
-	
-
-	
 	
 }

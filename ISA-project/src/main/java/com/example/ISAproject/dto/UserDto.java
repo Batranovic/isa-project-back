@@ -7,6 +7,7 @@ public class UserDto {
 	private String name;
 	private String surname;
 	private String email;
+	private String password;
 	private String city;
 	private String country;
 	private String phoneNumber;
@@ -22,6 +23,7 @@ public class UserDto {
 		name = user.getName();
 		surname = user.getSurname();
 		email = user.getEmail();
+		password = user.getPassword();
 		city = user.getCity();
 		country = user.getCountry();
 		phoneNumber = user.getPhoneNumber();
@@ -29,12 +31,13 @@ public class UserDto {
 		companyInformation = user.getCompanyInformation();
 	}
 
-	public UserDto(int id, String name, String surname, String email,String city, String country,
+	public UserDto(int id, String name, String surname, String email, String password, String city, String country,
 			String phoneNumber, String profession, String companyInformation) {
 		this.id = id;
 		this.name = name;
 		this.surname = surname;
 		this.email = email;
+		this.password = password;
 		this.city = city;
 		this.country = country;
 		this.phoneNumber = phoneNumber;
@@ -73,6 +76,14 @@ public class UserDto {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public String getCity() {
