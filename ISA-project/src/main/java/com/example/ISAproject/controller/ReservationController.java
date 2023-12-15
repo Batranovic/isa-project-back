@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.ISAproject.dto.CompanyDto;
 import com.example.ISAproject.dto.ReservationDTO;
 import com.example.ISAproject.dto.UserDto;
+import com.example.ISAproject.dto.ViewReservationDTO;
 import com.example.ISAproject.dto.AppointmentDTO;
 import com.example.ISAproject.enums.ReservationStatus;
 import com.example.ISAproject.model.Reservation;
@@ -43,18 +44,17 @@ public class ReservationController {
 	@Autowired
 	private UserService userService;
 	
-	@PostMapping("/create/{appointmnetId}/{equipmentId}/{userId}")
+	@PostMapping("/create/{appointmentId}/{userId}")
 	public ResponseEntity<ReservationDTO> createReservation(
-	        @PathVariable Integer appointmnetId,
-	        @PathVariable Integer equipmentId,
+	        @PathVariable Integer appointmentId,
+	        @RequestBody List<Integer> equipmentIds,
 	        @PathVariable Integer userId) {
 
-	    Reservation reservation = reservationService.createReservation(appointmnetId, equipmentId, userId);
+	    Reservation reservation = reservationService.createReservation(appointmentId, equipmentIds, userId);
 	    User user = userService.findOne(userId);
 	    
 	    if (reservation != null) {
 	        try {
-	            
 	            System.out.println("Thread id: " + Thread.currentThread().getId());
 	            emailService.sendQRCode(user, reservation);  
 	        } catch (Exception e) {
@@ -67,21 +67,14 @@ public class ReservationController {
 	        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	    }
 	}
+	
+	@GetMapping("/userReservation/{userId}")
+	public ResponseEntity<List<ViewReservationDTO>> getReservationsForUser(@PathVariable int userId) {
+	    List<ViewReservationDTO> reservationDTOs = reservationService.getReservationsForUser(userId);
+	    return ResponseEntity.ok(reservationDTOs);
+	}
 
-	/*
-	@PostMapping("/create/{appointmnetId}")
-	public ResponseEntity<ReservationDTO> createReservation(
-	        @PathVariable Integer appointmnetId,
-	        @RequestParam List<Integer> equipmentIds) {
 
-	    Reservation reservation = reservationService.createReservation(appointmnetId, equipmentIds);
-
-	    if (reservation != null) {
-	        ReservationDTO createdReservationDTO = new ReservationDTO(reservation);
-	        return new ResponseEntity<>(createdReservationDTO, HttpStatus.CREATED);
-	    } else {
-	        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-	    }
-	}*/
+	
 
 }
