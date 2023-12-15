@@ -38,5 +38,19 @@ public class EmailService {
 		System.out.println("Email poslat!");
 		
 	}
+	
+	@Async
+	public void sendQRCode(User user) throws MailException, InterruptedException{
+		Thread.sleep(10000);
+		System.out.println("Slanje emaila...");
+		SimpleMailMessage mail = new SimpleMailMessage();
+		mail.setTo(user.getEmail());
+		mail.setFrom(env.getProperty("spring.mail.username"));
+		mail.setSubject("Vasa rezervacija");
+		mail.setText("Pozdrav " + user.getName() + ",\n\nUspesno ste rezervisali opremu!");
+		javaMailSender.send(mail);
+		
+		System.out.println("Email poslat!");
+	}
 
 }
