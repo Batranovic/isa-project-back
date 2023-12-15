@@ -56,7 +56,7 @@ public class ReservationController {
 	        try {
 	            
 	            System.out.println("Thread id: " + Thread.currentThread().getId());
-	            emailService.sendQRCode(user);  
+	            emailService.sendQRCode(user, reservation);  
 	        } catch (Exception e) {
 	            logger.error("Greška prilikom slanja emaila: " + e.getMessage(), e);
 	        }

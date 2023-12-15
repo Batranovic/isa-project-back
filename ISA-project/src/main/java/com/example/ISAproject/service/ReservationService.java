@@ -39,6 +39,9 @@ public class ReservationService {
 	public Reservation createReservation( int appointmentId, int equipmentId, int userId) {
 		
 		Appointment appointment = appointmentRepository.findById(appointmentId).orElse(null);
+		if (appointment.getStatus() == AppointmentStatus.OCCUPIED){
+			return null;
+		}
 		appointment.setStatus(AppointmentStatus.OCCUPIED);
 		appointmentRepository.save(appointment);
 		Equipment equipment = equipmentRepository.findById(equipmentId).orElse(null);
