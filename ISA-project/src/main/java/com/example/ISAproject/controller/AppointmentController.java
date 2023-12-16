@@ -24,19 +24,15 @@ public class AppointmentController {
 
 	@Autowired
 	private AppointmentService appointmentService;
-	
-	
 
 	@GetMapping(value = "/getFreeAppointments/{date}")
-    public ResponseEntity<List<FreeAppointmentDTO>> getFreeAppointments(@PathVariable LocalDate date) {
-		 List<Appointment> appointements = appointmentService.getAllFreeAppointmentsForDate(date);
-        
-        List<FreeAppointmentDTO> appointmentsDTO = appointements.stream()
-                .map(FreeAppointmentDTO::new)
-                .collect(Collectors.toList());
+	public ResponseEntity<List<FreeAppointmentDTO>> getFreeAppointments(@PathVariable LocalDate date) {
+		List<Appointment> appointements = appointmentService.getAllFreeAppointmentsForDate(date);
 
-        return new ResponseEntity<>(appointmentsDTO, HttpStatus.OK);
-    }
-	
-	
+		List<FreeAppointmentDTO> appointmentsDTO = appointements.stream().map(FreeAppointmentDTO::new)
+				.collect(Collectors.toList());
+
+		return new ResponseEntity<>(appointmentsDTO, HttpStatus.OK);
+	}
+
 }

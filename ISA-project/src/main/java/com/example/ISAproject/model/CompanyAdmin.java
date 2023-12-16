@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -18,7 +19,7 @@ public class CompanyAdmin {
 	@OneToOne
 	private User user;
 	
-	@OneToOne
+	@ManyToOne
 	private Company company;
 
 	
@@ -56,7 +57,5 @@ public class CompanyAdmin {
 	public void setCompany(Company company) {
 		this.company = company;
 	}
-	
-	
 	
 }
