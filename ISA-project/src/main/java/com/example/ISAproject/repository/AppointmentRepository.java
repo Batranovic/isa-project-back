@@ -9,6 +9,6 @@ import com.example.ISAproject.model.Company;
 
 public interface AppointmentRepository extends JpaRepository<Appointment, Integer> {
 	
-	List<Appointment> findByAdminId(int adminId);
+	List<Appointment> findByCompanyAdminId(int adminId);
 
 }
