@@ -35,18 +35,11 @@ public class CompanyService {
 	}
 
 	public List<Company> search(CompanySearchDto searchDto) {
-
-
-		List<Company> companies = companyRepository.findAll();
-		List<Company> searchedCompanies = new ArrayList<Company>();
-		for (Company company : companies) {
-			if (company.getName().contains(searchDto.getName()) && company.getAddress().contains(searchDto.getAddress())
-					&& (searchDto.getAverageGradeFrom() == 0 || company.getAverageGrade() >= searchDto.getAverageGradeFrom())
-					&& (searchDto.getAverageGradeTo() == 0 || company.getAverageGrade() <= searchDto.getAverageGradeTo())) {
-				searchedCompanies.add(company);
-			}
+		if(searchDto.getAverageGradeFrom() == 0) {
+			return companyRepository.findByNameContainingAndAddressContaining(searchDto.getName(), searchDto.getAddress());
 		}
-		return searchedCompanies;
+		return companyRepository.findByNameContainingAndAddressContainingAndAverageGradeBetween(searchDto.getName(), searchDto.getAddress(), searchDto.getAverageGradeFrom(), searchDto.getAverageGradeTo());
+		
 	}
 	public Set<Equipment> getEquipmentsForCompany(int companyId) {
         Company company = companyRepository.findById(companyId).orElse(null);
