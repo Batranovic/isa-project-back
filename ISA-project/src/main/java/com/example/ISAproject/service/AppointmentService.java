@@ -24,13 +24,13 @@ public class AppointmentService {
 	private CompanyAdminRepository companyAdminRepository;
 	
 	
-	public List<Appointment> getAllFreeAppointmentsForDate(LocalDate date) {
+	public List<Appointment> getAllFreeAppointmentsForDate(int companyId, LocalDate date) {
 		LocalTime companyStartTime = LocalTime.of(8, 0);	
 		LocalTime companyEndTime = LocalTime.of(16, 0);	
 		
 		LocalDateTime iterTime = LocalDateTime.of(date, companyStartTime);
 		LocalDateTime iterEndTime = LocalDateTime.of(date, companyEndTime);
-		List<CompanyAdmin> admins = companyAdminRepository.findAll();
+		List<CompanyAdmin> admins = companyAdminRepository.findByCompanyId(companyId);
 		List<Appointment> apps = new ArrayList<Appointment>();
 		while(iterTime.isBefore(iterEndTime)) {
 			

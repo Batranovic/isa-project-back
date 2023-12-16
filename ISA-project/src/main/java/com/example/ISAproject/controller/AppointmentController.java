@@ -1,6 +1,7 @@
 package com.example.ISAproject.controller;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,9 +26,13 @@ public class AppointmentController {
 	@Autowired
 	private AppointmentService appointmentService;
 
-	@GetMapping(value = "/getFreeAppointments/{date}")
-	public ResponseEntity<List<FreeAppointmentDTO>> getFreeAppointments(@PathVariable LocalDate date) {
-		List<Appointment> appointements = appointmentService.getAllFreeAppointmentsForDate(date);
+	@GetMapping(value = "/getFreeAppointments/{companyId}/{date}")
+	public ResponseEntity<List<FreeAppointmentDTO>> getFreeAppointments(@PathVariable int companyId,
+			@PathVariable String date) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+		LocalDate localDate = LocalDate.parse(date, formatter);
+		List<Appointment> appointements = appointmentService.getAllFreeAppointmentsForDate(companyId, localDate);
 
 		List<FreeAppointmentDTO> appointmentsDTO = appointements.stream().map(FreeAppointmentDTO::new)
 				.collect(Collectors.toList());

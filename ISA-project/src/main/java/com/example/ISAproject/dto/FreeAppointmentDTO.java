@@ -2,12 +2,14 @@ package com.example.ISAproject.dto;
 
 import java.time.LocalDateTime;
 
+import com.example.ISAproject.enums.AppointmentStatus;
 import com.example.ISAproject.model.Appointment;
 
 public class FreeAppointmentDTO {
 	private int companyAdminId;
 	private LocalDateTime dateAndTime;
 	private int duration;
+	private AppointmentStatus status;
 
 	public FreeAppointmentDTO() {
 		super();
@@ -19,11 +21,12 @@ public class FreeAppointmentDTO {
 		this.dateAndTime = dateAndTime;
 		this.duration = duration;
 	}
-	public FreeAppointmentDTO(Appointment appointment)
-	{
+
+	public FreeAppointmentDTO(Appointment appointment) {
 		this.companyAdminId = appointment.getCompanyAdmin().getId();
 		this.dateAndTime = appointment.getDateAndTime();
 		this.duration = appointment.getDuration();
+		this.status = appointment.getStatus();
 	}
 
 	public int getCompanyAdminId() {
@@ -48,6 +51,14 @@ public class FreeAppointmentDTO {
 
 	public void setDuration(int duration) {
 		this.duration = duration;
+	}
+
+	public AppointmentStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(AppointmentStatus status) {
+		this.status = status;
 	}
 
 }
