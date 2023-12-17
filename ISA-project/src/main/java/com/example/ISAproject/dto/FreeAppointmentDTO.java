@@ -6,6 +6,7 @@ import com.example.ISAproject.enums.AppointmentStatus;
 import com.example.ISAproject.model.Appointment;
 
 public class FreeAppointmentDTO {
+	private int id;
 	private int companyAdminId;
 	private LocalDateTime dateAndTime;
 	private int duration;
@@ -15,18 +16,28 @@ public class FreeAppointmentDTO {
 		super();
 	}
 
-	public FreeAppointmentDTO(int companyAdminId, LocalDateTime dateAndTime, int duration) {
+	public FreeAppointmentDTO(int id, int companyAdminId, LocalDateTime dateAndTime, int duration) {
 		super();
+		this.id = id;
 		this.companyAdminId = companyAdminId;
 		this.dateAndTime = dateAndTime;
 		this.duration = duration;
 	}
 
 	public FreeAppointmentDTO(Appointment appointment) {
+		this.id = appointment.getId();
 		this.companyAdminId = appointment.getCompanyAdmin().getId();
 		this.dateAndTime = appointment.getDateAndTime();
 		this.duration = appointment.getDuration();
 		this.status = appointment.getStatus();
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public int getCompanyAdminId() {

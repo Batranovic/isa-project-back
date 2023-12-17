@@ -4,14 +4,21 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.ISAproject.dto.FreeAppointmentDTO;
 import com.example.ISAproject.enums.AppointmentStatus;
+import com.example.ISAproject.enums.ReservationStatus;
 import com.example.ISAproject.model.Appointment;
+import com.example.ISAproject.model.Company;
 import com.example.ISAproject.model.CompanyAdmin;
+import com.example.ISAproject.model.Equipment;
+import com.example.ISAproject.model.Reservation;
+import com.example.ISAproject.model.User;
 import com.example.ISAproject.repository.AppointmentRepository;
 import com.example.ISAproject.repository.CompanyAdminRepository;
 import com.example.ISAproject.util.DateUtil;
@@ -58,6 +65,20 @@ public class AppointmentService {
 		return true;
 	}
 	
-	
+	public Appointment createAppointment(FreeAppointmentDTO dto) {
+		
+		CompanyAdmin companyAdmin = companyAdminRepository.findById(dto.getCompanyAdminId()).orElse(null);
+		if(companyAdmin == null) {
+			return null;
+		}
+
+        Appointment newAppointment = new Appointment();
+        newAppointment.setCompanyAdmin(companyAdmin);
+        newAppointment.setDateAndTime(dto.getDateAndTime());
+        newAppointment.setDuration(dto.getDuration());
+        newAppointment.setStatus(dto.getStatus());
+
+        return appointmentRepository.save(newAppointment);
+    }
 	
 }
