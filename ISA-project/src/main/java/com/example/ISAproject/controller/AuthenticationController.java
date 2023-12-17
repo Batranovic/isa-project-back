@@ -60,11 +60,15 @@ public class AuthenticationController {
 
 		// Kreiraj token za tog korisnika
 		User user = (User) authentication.getPrincipal();
+        if (!user.getIsActive()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new UserTokenState("User is not active", 0));
+        }
 		String jwt = tokenUtils.generateToken(user); ///PROVERI
 		int expiresIn = tokenUtils.getExpiredIn();
 
 		// Vrati token kao odgovor na uspesnu autentifikaciju
 		return ResponseEntity.ok(new UserTokenState(jwt, expiresIn));
+	
 	}
 
 	// Endpoint za registraciju novog korisnika
