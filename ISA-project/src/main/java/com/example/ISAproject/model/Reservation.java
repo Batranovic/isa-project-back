@@ -42,9 +42,7 @@ public class Reservation {
     private Appointment appointment;
 
     @ManyToOne
-    @JoinTable(name = "reservation_user",
-	    joinColumns = @JoinColumn(name = "reservation_id", referencedColumnName = "id"),
-	    inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
+    @JoinColumn(name = "user_id")
     private User user;
     
     public Reservation() { }

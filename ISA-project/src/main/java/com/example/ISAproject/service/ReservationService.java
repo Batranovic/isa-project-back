@@ -53,6 +53,15 @@ public class ReservationService {
 	    if (equipments.isEmpty()) {
 	        return null;
 	    }
+	    
+	    for (Equipment equipment : equipments) {
+	        if (equipment.getQuantity() < 1) {
+	            
+	            return null;
+	        }
+	        equipment.setQuantity(equipment.getQuantity() - 1);
+	        equipmentRepository.save(equipment);
+	    }
 
 	    Reservation reservation = new Reservation();
 	    reservation.setStatus(ReservationStatus.PENDING);
