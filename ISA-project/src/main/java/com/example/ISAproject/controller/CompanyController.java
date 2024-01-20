@@ -103,8 +103,8 @@ public class CompanyController {
     }
 	
 	@GetMapping(value = "/appointments/{companyId}")
-    public ResponseEntity<Set<AppointmentDTO>> getAppointmentsForCompany(@PathVariable Integer companyId) {
-        Set<Appointment> appointments = companyService.getAppointmentsForCompany(companyId);
+    public ResponseEntity<Set<AppointmentDTO>> getFreeAppointmentsForCompany(@PathVariable Integer companyId) {
+        Set<Appointment> appointments = companyService.getFreeAppointmentsForCompany(companyId);
 
         if (appointments.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

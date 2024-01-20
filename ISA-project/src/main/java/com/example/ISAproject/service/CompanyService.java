@@ -53,7 +53,7 @@ public class CompanyService {
         return company.getEquipments();
     }
 	
-	public Set<Appointment> getAppointmentsForCompany(int companyId) {
+	public Set<Appointment> getFreeAppointmentsForCompany(int companyId) {
 	    Company company = companyRepository.findById(companyId).orElse(null);
 
 	    if (company == null) {

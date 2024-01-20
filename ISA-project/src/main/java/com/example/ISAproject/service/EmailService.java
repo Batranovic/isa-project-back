@@ -104,17 +104,21 @@ public class EmailService {
 
     private String generateAndSaveQRCode(String qrCodeData, int reservationId) {
         try {
-            // Generiši QR kod
+            // Generate QR code
             QRCodeWriter qrCodeWriter = new QRCodeWriter();
             BitMatrix bitMatrix = qrCodeWriter.encode(qrCodeData, BarcodeFormat.QR_CODE, 300, 300);
 
-            // Kreiraj putanju do direktorijuma za čuvanje QR kodova
+            // Create a directory path for storing QR codes
             String directoryPath = "src/main/java/QR_codes/";
 
-            // Kreiraj jedinstveno ime datoteke koristeći ID rezervacije
-            String qrCodeImagePath = directoryPath + "qrcode_" + reservationId + ".png";
+            // Create a unique filename using the reservation ID and a timestamp
+            String timestamp = String.valueOf(System.currentTimeMillis());
+            String qrCodeImageName = "qrcode_" + reservationId + "_" + timestamp + ".png";
 
-            // Čuvaj QR kod na serveru
+            // Create the full path to the QR code image
+            String qrCodeImagePath = directoryPath + qrCodeImageName;
+
+            // Save the QR code on the server
             Path path = Paths.get(qrCodeImagePath);
             MatrixToImageWriter.writeToPath(bitMatrix, "PNG", path);
 
@@ -124,4 +128,5 @@ public class EmailService {
             return null;
         }
     }
+
 }
