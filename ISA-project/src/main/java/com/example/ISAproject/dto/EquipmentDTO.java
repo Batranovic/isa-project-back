@@ -8,6 +8,7 @@ public class EquipmentDTO {
 	private String equipmentType;
 	private String description;
 	private int quantity;
+	private int reservedQuantity; 
 	
 	public EquipmentDTO() {
 		
@@ -19,15 +20,17 @@ public class EquipmentDTO {
 		equipmentType = equipment.getType();
 		description = equipment.getDescription();
 		quantity = equipment.getQuantity();
+		reservedQuantity = equipment.getReservedQuantity();
 	}
 
-	public EquipmentDTO(int id, String name, String equipmentType, String description, int quantity) {
+	public EquipmentDTO(int id, String name, String equipmentType, String description, int quantity, int reservedQuantity) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.equipmentType = equipmentType;
 		this.description = description;
 		this.quantity = quantity;
+		this.reservedQuantity = reservedQuantity;
 	}
 
 	public int getId() {
@@ -68,6 +71,14 @@ public class EquipmentDTO {
 
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
+	}
+
+	public int getReservedQuantity() {
+		return reservedQuantity;
+	}
+
+	public void setReservedQuantity(int reservedQuantity) {
+		this.reservedQuantity = reservedQuantity;
 	}
 	
 	

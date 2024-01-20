@@ -40,6 +40,22 @@ public class ReservationService {
 	@Autowired
 	private UserRepository userRepository;	
 	public Reservation createReservation(int appointmentId, List<Integer> equipmentIds, int userId) {
+		
+		 List<Equipment> equipments = equipmentRepository.findAllById(equipmentIds);
+		    
+		 if (equipments.isEmpty()) {
+		        return null;
+		 }
+		    
+	    for (Equipment equipment : equipments) {
+	        if (equipment.getQuantity() == equipment.getReservedQuantity()) {
+	            return null;
+	        }else {
+		        equipment.setReservedQuantity(equipment.getReservedQuantity() + 1);
+		        equipmentRepository.save(equipment);
+	        }
+	    }
+
 	    Appointment appointment = appointmentRepository.findById(appointmentId).orElse(null);
 	    if (appointment == null || appointment.getStatus() == AppointmentStatus.OCCUPIED) {
 	        return null;
@@ -48,21 +64,7 @@ public class ReservationService {
 	    appointment.setStatus(AppointmentStatus.OCCUPIED);
 	    appointmentRepository.save(appointment);
 
-	    List<Equipment> equipments = equipmentRepository.findAllById(equipmentIds);
-	    
-	    if (equipments.isEmpty()) {
-	        return null;
-	    }
-	    
-	    for (Equipment equipment : equipments) {
-	        if (equipment.getQuantity() < 1) {
-	            
-	            return null;
-	        }
-	        equipment.setQuantity(equipment.getQuantity() - 1);
-	        equipmentRepository.save(equipment);
-	    }
-
+	   
 	    Reservation reservation = new Reservation();
 	    reservation.setStatus(ReservationStatus.PENDING);
 	    reservation.setAppointment(appointment);
