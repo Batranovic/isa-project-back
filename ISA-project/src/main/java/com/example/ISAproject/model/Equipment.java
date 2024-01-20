@@ -28,15 +28,19 @@ public class Equipment {
 		@Column(name = "quantity", nullable = false)
 	    private int quantity;
 		
+		@Column(name="reserved_quantity")
+		private int reservedQuantity;
+		
 	    public Equipment() { }
 
-	    public Equipment(int id, String name, String type, String description, int quantity) {
+	    public Equipment(int id, String name, String type, String description, int quantity, int reservedQuntity) {
 	        super();
 	        this.id = id;
 	        this.name = name;
 	        this.equipmentType = type;
 	        this.description = description;
 	        this.quantity = quantity;
+	        this.reservedQuantity = reservedQuantity;
 	    }
 
 	    public int getId() {
@@ -79,5 +83,15 @@ public class Equipment {
 	        this.quantity = quantity;
 	    }
 
+
+		public int getReservedQuantity() {
+			return reservedQuantity;
+		}
+
+		public void setReservedQuantity(int reservedQuantity) {
+			this.reservedQuantity = reservedQuantity;
+		}
+
+	    
 
 	}

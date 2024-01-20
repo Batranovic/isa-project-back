@@ -12,10 +12,10 @@ insert into users(name, surname, email, password, last_password_reset_date, city
 insert into users(name, surname, email, password, last_password_reset_date, city, country, phone_number, profession, company_information, is_active) values ('ime4', 'prz4', 'email4', 'pass4', '2017-10-01 21:58:58.508-07' ,'city4', 'country4', 'phone4', 'profession4', 'info4',false);
 insert into users(name, surname, email, password, last_password_reset_date, city, country, phone_number, profession, company_information, is_active) values ('Nina', 'Ba', 'projekatisa2023@gmail.com', '$2a$10$lhYgvOwC1Q.fxzQBkwVNI.xqwKaoQiY6Gum5fzeN9jsuYStzORNGi', '2017-10-01 21:58:58.508-07' ,'NS', 'Srbija', '1234', 'programer', 'info5',true);
 
-insert into equipments(name, equipment_type, description, quantity) values ('X-Ray Machine', 'Medical Imaging', 'Advanced X-ray equipment', 5);
-insert into equipments(name, equipment_type, description, quantity) values ('Hospital Bed', 'Furniture', 'Specialized bed for patients', 15);
-insert into equipments(name, equipment_type, description, quantity) values ('Surgical Instruments', 'Medical Tools', 'Various surgical instruments', 25);
-insert into equipments(name, equipment_type, description, quantity) values ('MRI Scanner', 'Medical Imaging', 'Magnetic Resonance Imaging machine', 3);
+insert into equipments(name, equipment_type, description, quantity, reserved_quantity) values ('X-Ray Machine', 'Medical Imaging', 'Advanced X-ray equipment', 5, 0);
+insert into equipments(name, equipment_type, description, quantity,reserved_quantity) values ('Hospital Bed', 'Furniture', 'Specialized bed for patients', 15, 0);
+insert into equipments(name, equipment_type, description, quantity,reserved_quantity) values ('Surgical Instruments', 'Medical Tools', 'Various surgical instruments', 25, 0);
+insert into equipments(name, equipment_type, description, quantity,reserved_quantity) values ('MRI Scanner', 'Medical Imaging', 'Magnetic Resonance Imaging machine', 3, ,0);
 
 
 insert into company_admins(company_id, user_id) values (1, 1);

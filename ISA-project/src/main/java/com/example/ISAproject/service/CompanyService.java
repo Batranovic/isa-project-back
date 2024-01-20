@@ -1,6 +1,7 @@
 package com.example.ISAproject.service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Collections;
 import java.util.List;
 
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.ISAproject.dto.CompanySearchDto;
 import com.example.ISAproject.dto.EquipmentDTO;
+import com.example.ISAproject.enums.AppointmentStatus;
 import com.example.ISAproject.model.Appointment;
 import com.example.ISAproject.model.Company;
 import com.example.ISAproject.repository.CompanyRepository;
@@ -59,13 +61,21 @@ public class CompanyService {
     }
 	
 	public Set<Appointment> getAppointmentsForCompany(int companyId) {
-        Company company = companyRepository.findById(companyId).orElse(null);
+	    Company company = companyRepository.findById(companyId).orElse(null);
 
-        if (company == null) {
-            return Collections.emptySet();
-        }
+	    if (company == null) {
+	        return Collections.emptySet();
+	    }
 
-        return company.getAppointments();
-    }
+	    // Filter appointments by status (in this case, "free")
+	    Set<Appointment> freeAppointments = new HashSet<>();
+	    for (Appointment appointment : company.getAppointments()) {
+	        if (appointment.getStatus() == AppointmentStatus.FREE) {
+	            freeAppointments.add(appointment);
+	        }
+	    }
+
+	    return freeAppointments;
+	}
 	
 }
