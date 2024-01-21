@@ -2,17 +2,23 @@ package com.example.ISAproject.service;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import org.springframework.transaction.annotation.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.ISAproject.dto.RegistrationDTO;
 import com.example.ISAproject.dto.UserDto;
+import com.example.ISAproject.enums.RegisteredUserCategory;
 import com.example.ISAproject.model.User;
+import com.example.ISAproject.repository.RegisteredUserRepository;
 import com.example.ISAproject.repository.UserRepository;
 
 import com.example.ISAproject.model.Role;
-
+import com.example.ISAproject.model.RegisteredUser;
 
 @Service
 public class UserService {
@@ -21,10 +27,16 @@ public class UserService {
 	private UserRepository userRepository;
 	
 	@Autowired
+	private RegisteredUserRepository registeredUserRepository;
+	
+	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
 	@Autowired
 	private RoleService roleService;
+	
+	@PersistenceContext  
+    private EntityManager entityManager;
 	
 	public User findOne(Integer id) {
 		return userRepository.findById(id).orElseGet(null);
@@ -52,6 +64,7 @@ public class UserService {
 		return user;
 	}
 	
+	@Transactional
 	public User save(RegistrationDTO registrationDto) {
 		User u = new User();
 		u.setEmail(registrationDto.getEmail());
@@ -71,7 +84,15 @@ public class UserService {
 		List<Role> roles = roleService.findByName("ROLE_USER");
 		u.setRoles(roles);
 		
-		return this.userRepository.save(u);
+		User savedUser = userRepository.save(u);
+
+        RegisteredUser registeredUser = new RegisteredUser();
+        registeredUser.setUser(savedUser);
+        registeredUser.setPenalPoints(0);
+        registeredUser.setUserCategory(RegisteredUserCategory.REGULAR);
+        registeredUserRepository.save(registeredUser);
+
+        return savedUser;
 	}
 	
 	

@@ -41,3 +41,9 @@ INSERT INTO USER_ROLE (user_id, role_id) VALUES (2, 1); -- admin-u dodeljujemo r
 INSERT INTO USER_ROLE (user_id, role_id) VALUES (3, 1); -- user-u dodeljujemo rolu USER
 INSERT INTO USER_ROLE (user_id, role_id) VALUES (4, 1);
 INSERT INTO USER_ROLE (user_id, role_id) VALUES (5, 1);
+
+INSERT INTO registered_user(penal_points, user_id, user_category) values (0, 1, 0)
+INSERT INTO registered_user(penal_points, user_id, user_category) values (5, 2, 0)
+INSERT INTO registered_user(penal_points, user_id, user_category) values (1, 3, 0)
+INSERT INTO registered_user(penal_points, user_id, user_category) values (2, 4, 0)
+INSERT INTO registered_user(penal_points, user_id, user_category) values (0, 5, 0)
