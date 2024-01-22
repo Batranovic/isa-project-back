@@ -22,12 +22,12 @@ insert into equipments(name, equipment_type, description, quantity,reserved_quan
 insert into company_admins(company_id, user_id) values (1, 1);
 insert into company_admins(company_id, user_id) values (1, 2);
 
-INSERT INTO appointments(start_date, duration, status, admin_id) VALUES ('2023-10-10 10:00:00', 100, 0, 2);
-INSERT INTO appointments(start_date, duration, status, admin_id) VALUES ('2024-01-10 11:00:00', 90, 0, 1);
+INSERT INTO appointments(start_date, duration, status, admin_id) VALUES ('2024-04-04 10:00:00', 100, 0, 2);
+INSERT INTO appointments(start_date, duration, status, admin_id) VALUES ('2024-05-05 11:00:00', 90, 0, 1);
 INSERT INTO appointments(start_date, duration, status, admin_id) VALUES ('2024-02-02 11:00:00', 60, 0, 1);
 INSERT INTO appointments(start_date, duration, status, admin_id) VALUES ('2024-02-02 11:30:00', 100, 0, 2);
 INSERT INTO appointments(start_date, duration, status, admin_id) VALUES ('2024-03-03 15:10:00', 90, 0, 1);
-INSERT INTO appointments(start_date, duration, status, admin_id) VALUES ('2023-03-03 15:20:00', 60, 0, 1);
+INSERT INTO appointments(start_date, duration, status, admin_id) VALUES ('2024-03-03 15:20:00', 60, 0, 2);
 
 insert into company_appointment(company_id, appointment_id) values (2,1);
 insert into company_appointment(company_id, appointment_id) values (1,2);
