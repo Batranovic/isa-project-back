@@ -52,11 +52,20 @@ public class ReservationService {
 	}
 	
 	public Reservation createReservation(int appointmentId, List<Integer> equipmentIds, int userId) {
-		 Reservation existingReservation = reservationRepository.findByUser_idAndAppointment_id(userId, appointmentId);
-		   
-		    if (existingReservation != null) {
-		        return null;
+		List<Reservation> userReservations = reservationRepository.findByUser_id(userId);
+		for (Reservation userReservation : userReservations) {
+		    Appointment userAppointment = userReservation.getAppointment();
+		    
+		    if (userReservation.getStatus() == ReservationStatus.CANCELED) {
+		        continue; // Ako je rezervacija otkazana, preskoči i idi na sledeću
 		    }
+
+		    if (isOverlap(userAppointment, appointmentId)) {
+		        return null; // Postoji preklapanje, onemogući rezervaciju
+		    }
+		}
+
+		
 		 List<Equipment> equipments = equipmentRepository.findAllById(equipmentIds);
 		    
 		 if (equipments.isEmpty()) {
@@ -93,6 +102,23 @@ public class ReservationService {
 	    reservation.setUser(user);
 
 	    return reservationRepository.save(reservation);
+	}
+	
+	private boolean isOverlap(Appointment existingAppointment, int newAppointmentId) {
+
+	    Appointment newAppointment = appointmentRepository.findById(newAppointmentId).orElse(null);
+
+	    if (newAppointment != null && existingAppointment != null) {
+	        LocalDateTime existingStart = existingAppointment.getDateAndTime();
+	        LocalDateTime existingEnd = existingStart.plusMinutes(existingAppointment.getDuration());
+
+	        LocalDateTime newStart = newAppointment.getDateAndTime();
+	        LocalDateTime newEnd = newStart.plusMinutes(newAppointment.getDuration());
+
+	        return existingStart.isBefore(newEnd) && existingEnd.isAfter(newStart);
+	    }
+
+	    return false;
 	}
 	
 	public List<ViewReservationDTO> getReservationsForUser(int userId) {
