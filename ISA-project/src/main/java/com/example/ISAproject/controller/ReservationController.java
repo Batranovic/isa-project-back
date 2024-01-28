@@ -1,6 +1,7 @@
 package com.example.ISAproject.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +25,7 @@ import com.example.ISAproject.dto.ViewReservationDTO;
 import com.example.ISAproject.dto.AppointmentDTO;
 import com.example.ISAproject.enums.ReservationStatus;
 import com.example.ISAproject.model.Reservation;
+import com.example.ISAproject.model.ReservationRequest;
 import com.example.ISAproject.model.User;
 import com.example.ISAproject.service.EmailService;
 import com.example.ISAproject.service.ReservationService;
@@ -48,16 +50,20 @@ public class ReservationController {
 	@PostMapping("/create/{appointmentId}/{userId}")
 	public ResponseEntity<ReservationDTO> createReservation(
 	        @PathVariable Integer appointmentId,
-	        @RequestBody List<Integer> equipmentIds,
+	        @RequestBody List<ReservationRequest> reservationRequests,
 	        @PathVariable Integer userId) {
 
-	    Reservation reservation = reservationService.createReservation(appointmentId, equipmentIds, userId);
+	    List<Integer> equipmentIds = reservationRequests.stream()
+	            .map(ReservationRequest::getEquipmentId)
+	            .collect(Collectors.toList());
+
+	    Reservation reservation = reservationService.createReservation(appointmentId, reservationRequests, userId);
 	    User user = userService.findOne(userId);
-	    
+
 	    if (reservation != null) {
 	        try {
 	            System.out.println("Thread id: " + Thread.currentThread().getId());
-	            emailService.sendQRCode(user, reservation);  
+	            emailService.sendQRCode(user, reservation);
 	        } catch (Exception e) {
 	            logger.error("Greška prilikom slanja emaila: " + e.getMessage(), e);
 	        }

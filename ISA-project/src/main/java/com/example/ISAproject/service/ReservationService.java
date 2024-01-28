@@ -19,6 +19,7 @@ import com.example.ISAproject.dto.UserDto;
 import com.example.ISAproject.enums.AppointmentStatus;
 import com.example.ISAproject.enums.ReservationStatus;
 import com.example.ISAproject.model.Reservation;
+import com.example.ISAproject.model.ReservationRequest;
 import com.example.ISAproject.model.User;
 import com.example.ISAproject.model.Equipment;
 import com.example.ISAproject.model.RegisteredUser;
@@ -27,6 +28,7 @@ import com.example.ISAproject.repository.AppointmentRepository;
 import com.example.ISAproject.repository.EquipmentRepository;
 import com.example.ISAproject.repository.RegisteredUserRepository;
 import com.example.ISAproject.repository.ReservationRepository;
+import com.example.ISAproject.repository.ReservationRequestRepository;
 import com.example.ISAproject.repository.UserRepository;
 @Service
 public class ReservationService {
@@ -45,40 +47,49 @@ public class ReservationService {
 	private UserRepository userRepository;	
 	
 	@Autowired
+	private ReservationRequestRepository reservationRequestRepository;	
+	
+	@Autowired
 	private RegisteredUserRepository registeredUserRepository;	
 	
 	public Reservation findOne(Integer id) {
 		return reservationRepository.findById(id).orElseGet(null);
 	}
 	
-	public Reservation createReservation(int appointmentId, List<Integer> equipmentIds, int userId) {
-		List<Reservation> userReservations = reservationRepository.findByUser_id(userId);
-		for (Reservation userReservation : userReservations) {
-		    Appointment userAppointment = userReservation.getAppointment();
-		    
-		    if (userReservation.getStatus() == ReservationStatus.CANCELED) {
-		        continue; // Ako je rezervacija otkazana, preskoči i idi na sledeću
-		    }
+	@Transactional
+	public Reservation createReservation(int appointmentId, List<ReservationRequest> reservationRequests, int userId) {
+	    List<Reservation> userReservations = reservationRepository.findByUser_id(userId);
 
-		    if (isOverlap(userAppointment, appointmentId)) {
-		        return null; // Postoji preklapanje, onemogući rezervaciju
-		    }
-		}
+	    for (Reservation userReservation : userReservations) {
+	        Appointment userAppointment = userReservation.getAppointment();
 
-		
-		 List<Equipment> equipments = equipmentRepository.findAllById(equipmentIds);
-		    
-		 if (equipments.isEmpty()) {
-		        return null;
-		 }
-		    
-	    for (Equipment equipment : equipments) {
-	        if (equipment.getQuantity() == equipment.getReservedQuantity()) {
-	            return null;
-	        }else {
-		        equipment.setReservedQuantity(equipment.getReservedQuantity() + 1);
-		        equipmentRepository.save(equipment);
+	        if (userReservation.getStatus() == ReservationStatus.CANCELED) {
+	            continue;
 	        }
+
+	        if (isOverlap(userAppointment, appointmentId)) {
+	            return null;
+	        }
+	    }
+
+	    List<Equipment> equipments = new ArrayList<>();
+
+	    for (ReservationRequest reservationRequest : reservationRequests) {
+	        Integer equipmentId = reservationRequest.getEquipmentId();
+	        Integer quantity = reservationRequest.getQuantity();
+
+	        Equipment equipment = equipmentRepository.findById(equipmentId).orElse(null);
+
+	        if (equipment == null || equipment.getQuantity() < quantity || equipment.getReservedQuantity() + quantity > equipment.getQuantity()) {
+	            return null;  // Invalid equipment ID or quantity
+	        }
+
+	        equipments.add(equipment);
+
+	        equipment.setReservedQuantity(equipment.getReservedQuantity() + quantity);
+	        equipmentRepository.save(equipment);
+	        reservationRequestRepository.save(reservationRequest);
+	        
 	    }
 
 	    Appointment appointment = appointmentRepository.findById(appointmentId).orElse(null);
@@ -100,7 +111,10 @@ public class ReservationService {
 	    }
 
 	    reservation.setUser(user);
-
+	    for (ReservationRequest reservationRequest : reservationRequests) {
+	    	reservationRequest.setReservation(reservation);
+	    	reservationRequestRepository.save(reservationRequest);
+	    }
 	    return reservationRepository.save(reservation);
 	}
 	
@@ -139,34 +153,45 @@ public class ReservationService {
 	}
 	
 	@Transactional
-	public void cancelReservation(int reservationId,int userId) {
-		RegisteredUser registeredUser = registeredUserRepository.getById(userId);
-		Reservation reservation = findOne(reservationId);
-		
-		if(reservation == null || registeredUser == null  ) {
-			return;
-		}
-		
-        LocalDateTime currentDateTime = LocalDateTime.now();
-        LocalDateTime reservationDateTime = reservation.getAppointment().getDateAndTime();
+	public void cancelReservation(int reservationId, int userId) {
+	    RegisteredUser registeredUser = registeredUserRepository.getById(userId);
+	    Reservation reservation = findOne(reservationId);
 
-        if (currentDateTime.isAfter(reservationDateTime.minusHours(24))) {
-        	registeredUser.setPenalPoints(registeredUser.getPenalPoints() - 2);
-        }else {
-           registeredUser.setPenalPoints(registeredUser.getPenalPoints() - 1);
-        }
-        
-        for (Equipment equipment : reservation.getEquipments()) {
-	        equipment.setReservedQuantity(equipment.getReservedQuantity() - 1);
-	        equipmentRepository.save(equipment);
+	    if (reservation == null || registeredUser == null) {
+	        return;
 	    }
-        
-        reservation.getAppointment().setStatus(AppointmentStatus.FREE);
-        reservation.setStatus(ReservationStatus.CANCELED);
-        reservationRepository.save(reservation);
-        registeredUserRepository.save(registeredUser);
-		
+
+	    LocalDateTime currentDateTime = LocalDateTime.now();
+	    LocalDateTime reservationDateTime = reservation.getAppointment().getDateAndTime();
+
+	    if (currentDateTime.isAfter(reservationDateTime.minusHours(24))) {
+	        registeredUser.setPenalPoints(registeredUser.getPenalPoints() - 2);
+	    } else {
+	        registeredUser.setPenalPoints(registeredUser.getPenalPoints() - 1);
+	    }
+
+	   
+	    List<ReservationRequest> reservationRequests = reservationRequestRepository.findByReservation_id(reservationId);
+
+	    for (ReservationRequest reservationRequest : reservationRequests) {
+	        Integer equipmentId = reservationRequest.getEquipmentId();
+	        Integer quantity = reservationRequest.getQuantity();
+
+	        Equipment equipment = equipmentRepository.findById(equipmentId).orElse(null);
+
+	        if (equipment != null) {
+	            // Update the reserved quantity for each associated Equipment
+	            equipment.setReservedQuantity(equipment.getReservedQuantity() - quantity);
+	            equipmentRepository.save(equipment);
+	        }
+	    }
+
+	    reservation.getAppointment().setStatus(AppointmentStatus.FREE);
+	    reservation.setStatus(ReservationStatus.CANCELED);
+	    reservationRepository.save(reservation);
+	    registeredUserRepository.save(registeredUser);
 	}
+
 
 
 

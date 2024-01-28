@@ -17,6 +17,7 @@ import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Version;
 import javax.validation.constraints.NotEmpty;
 
 import com.example.ISAproject.enums.AppointmentStatus;
@@ -43,6 +44,8 @@ public class Appointment {
 	@Column(name = "status", nullable = false)
     private AppointmentStatus status;
 
+	@Version
+	private Integer version;
 	
 	public Appointment() {
 		super();
@@ -97,5 +100,13 @@ public class Appointment {
 	public void setStatus(AppointmentStatus status) {
 		this.status = status;
 	}   
+	
+	public Integer getVersion() {
+		return version;
+	}
+
+	public void setVersion(Integer version) {
+		this.version = version;
+	}
  
 }
