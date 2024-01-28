@@ -66,7 +66,8 @@ public class ReservationService {
 	        if (userReservation.getStatus() == ReservationStatus.CANCELED) {
 	            continue;
 	        }
-
+	        
+	        //vec postoji rezervacija ciji termin ce se preklopiti
 	        if (isOverlap(userAppointment, appointmentId)) {
 	            return null;
 	        }
