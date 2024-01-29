@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Version;
 
 @Entity
 @Table(name = "EQUIPMENTS")
@@ -30,6 +31,9 @@ public class Equipment {
 		
 		@Column(name="reserved_quantity")
 		private int reservedQuantity;
+		
+		@Version
+		private Integer version;
 		
 	    public Equipment() { }
 
@@ -92,6 +96,13 @@ public class Equipment {
 			this.reservedQuantity = reservedQuantity;
 		}
 
+		public Integer getVersion() {
+			return version;
+		}
+
+		public void setVersion(Integer version) {
+			this.version = version;
+		}
 	    
 
 	}

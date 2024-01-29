@@ -214,7 +214,6 @@ public class ReservationService {
 	        Equipment equipment = equipmentRepository.findById(equipmentId).orElse(null);
 
 	        if (equipment != null) {
-	            // Update the reserved quantity for each associated Equipment
 	            equipment.setReservedQuantity(equipment.getReservedQuantity() - quantity);
 	            equipment.setQuantity(equipment.getQuantity() - quantity);
 	            equipmentRepository.save(equipment);
@@ -226,5 +225,4 @@ public class ReservationService {
 	    reservationRepository.save(reservation);
 	    registeredUserRepository.save(registeredUser);
 	}
-	
 }

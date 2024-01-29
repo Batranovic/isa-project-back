@@ -13,21 +13,21 @@ insert into users(name, surname, email, password, last_password_reset_date, city
 insert into users(name, surname, email, password, last_password_reset_date, city, country, phone_number, profession, company_information, is_active) values ('Nina', 'Ba', 'projekatisa2023@gmail.com', '$2a$10$lhYgvOwC1Q.fxzQBkwVNI.xqwKaoQiY6Gum5fzeN9jsuYStzORNGi', '2017-10-01 21:58:58.508-07' ,'NS', 'Srbija', '1234', 'pulmolog', 'info5',true);
 insert into users(name, surname, email, password, last_password_reset_date, city, country, phone_number, profession, company_information, is_active) values ('Mila', 'Milic', 'nina.batranovic3@gmail.com', '$2a$10$lhYgvOwC1Q.fxzQBkwVNI.xqwKaoQiY6Gum5fzeN9jsuYStzORNGi', '2016-10-02 01:58:57.508-07' ,'NS', 'Srbija', '42156', 'zubar', 'info',true);
 
-insert into equipments(name, equipment_type, description, quantity, reserved_quantity) values ('X-Ray Machine', 'Medical Imaging', 'Advanced X-ray equipment', 5, 0);
-insert into equipments(name, equipment_type, description, quantity,reserved_quantity) values ('Hospital Bed', 'Furniture', 'Specialized bed for patients', 15, 0);
-insert into equipments(name, equipment_type, description, quantity,reserved_quantity) values ('Surgical Instruments', 'Medical Tools', 'Various surgical instruments', 25, 0);
-insert into equipments(name, equipment_type, description, quantity,reserved_quantity) values ('MRI Scanner', 'Medical Imaging', 'Magnetic Resonance Imaging machine', 3, 0);
-insert into equipments(name, equipment_type, description, quantity,reserved_quantity) values ('IV Pumps', 'Equipment', 'Infusion pumps', 30, 0);
+insert into equipments(name, equipment_type, description, quantity, reserved_quantity, version) values ('X-Ray Machine', 'Medical Imaging', 'Advanced X-ray equipment', 3, 0, 0);
+insert into equipments(name, equipment_type, description, quantity,reserved_quantity, version) values ('Hospital Bed', 'Furniture', 'Specialized bed for patients', 4, 0, 0);
+insert into equipments(name, equipment_type, description, quantity,reserved_quantity, version) values ('Surgical Instruments', 'Medical Tools', 'Various surgical instruments', 25, 0, 0);
+insert into equipments(name, equipment_type, description, quantity,reserved_quantity, version) values ('MRI Scanner', 'Medical Imaging', 'Magnetic Resonance Imaging machine', 3, 0, 0);
+insert into equipments(name, equipment_type, description, quantity,reserved_quantity, version) values ('IV Pumps', 'Equipment', 'Infusion pumps', 30, 0, 0);
 
 insert into company_admins(company_id, user_id) values (1, 1);
 insert into company_admins(company_id, user_id) values (1, 2);
 
-INSERT INTO appointments(start_date, duration, status, admin_id) VALUES ('2024-04-04 10:00:00', 100, 0, 2);
-INSERT INTO appointments(start_date, duration, status, admin_id) VALUES ('2024-05-05 11:00:00', 90, 0, 1);
-INSERT INTO appointments(start_date, duration, status, admin_id) VALUES ('2024-02-02 11:00:00', 60, 0, 1);
-INSERT INTO appointments(start_date, duration, status, admin_id) VALUES ('2024-02-02 11:30:00', 100, 0, 2);
-INSERT INTO appointments(start_date, duration, status, admin_id) VALUES ('2024-03-03 15:10:00', 90, 0, 1);
-INSERT INTO appointments(start_date, duration, status, admin_id) VALUES ('2024-03-03 15:20:00', 60, 0, 2);
+INSERT INTO appointments(start_date, duration, status, admin_id, version) VALUES ('2024-04-04 10:00:00', 100, 0, 2, 0);
+INSERT INTO appointments(start_date, duration, status, admin_id, version) VALUES ('2024-05-05 11:00:00', 90, 0, 1, 0);
+INSERT INTO appointments(start_date, duration, status, admin_id, version) VALUES ('2024-02-02 11:00:00', 60, 0, 1, 0);
+INSERT INTO appointments(start_date, duration, status, admin_id, version) VALUES ('2024-02-02 11:30:00', 100, 0, 2, 0);
+INSERT INTO appointments(start_date, duration, status, admin_id, version) VALUES ('2024-03-03 15:10:00', 90, 0, 1, 0);
+INSERT INTO appointments(start_date, duration, status, admin_id, version) VALUES ('2024-03-03 15:20:00', 60, 0, 2, 0);
 
 insert into company_appointment(company_id, appointment_id) values (2,1);
 insert into company_appointment(company_id, appointment_id) values (1,2);
