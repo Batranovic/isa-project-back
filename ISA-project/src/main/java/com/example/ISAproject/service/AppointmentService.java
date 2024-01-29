@@ -21,6 +21,7 @@ import com.example.ISAproject.model.Reservation;
 import com.example.ISAproject.model.User;
 import com.example.ISAproject.repository.AppointmentRepository;
 import com.example.ISAproject.repository.CompanyAdminRepository;
+import com.example.ISAproject.repository.ReservationRepository;
 import com.example.ISAproject.util.DateUtil;
 
 @Service
@@ -29,6 +30,8 @@ public class AppointmentService {
 	private AppointmentRepository appointmentRepository;
 	@Autowired
 	private CompanyAdminRepository companyAdminRepository;
+	@Autowired
+	private ReservationRepository reservationRepository;
 	
 	
 	public List<Appointment> getAllFreeAppointmentsForDate(int companyId, LocalDate date) {
@@ -80,5 +83,18 @@ public class AppointmentService {
 
         return appointmentRepository.save(newAppointment);
     }
+	
+	
+	public List<Appointment> getAllReserved(int userId) {
+		List<Appointment> appointments = new ArrayList<Appointment>();
+	
+		for(var r : reservationRepository.findAll()) {
+			if(r.getStatus() == ReservationStatus.PENDING && r.getUser().getId() == userId) {
+				appointments.add(r.getAppointment());
+			}
+		}
+		
+		return appointments;
+	}
 	
 }

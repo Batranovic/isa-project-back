@@ -3,6 +3,7 @@ package com.example.ISAproject.controller;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,6 +23,7 @@ import com.example.ISAproject.dto.AppointmentDTO;
 import com.example.ISAproject.dto.CompanyDto;
 import com.example.ISAproject.dto.FreeAppointmentDTO;
 import com.example.ISAproject.enums.AppointmentStatus;
+import com.example.ISAproject.enums.ReservationStatus;
 import com.example.ISAproject.model.Appointment;
 import com.example.ISAproject.model.CompanyAdmin;
 import com.example.ISAproject.service.AppointmentService;
@@ -57,4 +59,15 @@ public class AppointmentController {
         return new ResponseEntity<>(dtoCreated, HttpStatus.CREATED);
     }
 
+
+	@GetMapping(value = "/reserved/{userId}")
+	public ResponseEntity<List<AppointmentDTO>> getAllReserved(@PathVariable int userId) {
+		List<Appointment> appointements = appointmentService.getAllReserved(userId);
+		List<AppointmentDTO> appointmentsDTO = appointements.stream().map(AppointmentDTO::new)
+				.collect(Collectors.toList());
+		
+		return new ResponseEntity<>(appointmentsDTO, HttpStatus.OK);
+	}
+	
+	
 }

@@ -89,7 +89,7 @@ public class EmailService {
         }
     }
 
-    private String generateQRCodeData(Reservation reservation) {
+    public static String generateQRCodeData(Reservation reservation) {
         StringBuilder qrCodeData = new StringBuilder();
         qrCodeData.append("User:").append(reservation.getUser().getName()).append(" | ");
         qrCodeData.append("Company Admin:").append(reservation.getAppointment().getCompanyAdmin().getUser().getName()).append(" | ");

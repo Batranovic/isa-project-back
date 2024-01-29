@@ -1,6 +1,8 @@
 package com.example.ISAproject.controller;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,10 +21,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.ISAproject.dto.CompanyDto;
 import com.example.ISAproject.dto.ReservationDTO;
+import com.example.ISAproject.dto.ReservationQrDTO;
 import com.example.ISAproject.dto.UserDto;
 import com.example.ISAproject.dto.ViewReservationDTO;
 import com.example.ISAproject.dto.AppointmentDTO;
 import com.example.ISAproject.enums.ReservationStatus;
+import com.example.ISAproject.model.Appointment;
 import com.example.ISAproject.model.Reservation;
 import com.example.ISAproject.model.User;
 import com.example.ISAproject.service.EmailService;
@@ -82,4 +86,12 @@ public class ReservationController {
 
 	 reservationService.cancelReservation(reservationId, userId);
 	}
+	
+	@GetMapping("/withQr/{userId}")
+	public ResponseEntity<List<ReservationQrDTO>> getAllWithQr(@PathVariable int userId) {
+		List<Reservation> reservations = reservationService.getAllWithQr(userId);
+		List<ReservationQrDTO> reservationsDTO = reservations.stream().map(ReservationQrDTO::new).collect(Collectors.toList());
+		return new ResponseEntity<>(reservationsDTO, HttpStatus.OK);
+	}
+	
 }

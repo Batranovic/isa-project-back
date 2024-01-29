@@ -9,11 +9,13 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import com.example.ISAproject.dto.AppointmentDTO;
 import com.example.ISAproject.dto.EquipmentDTO;
 import com.example.ISAproject.dto.RegistrationDTO;
 import com.example.ISAproject.dto.ReservationDTO;
+import com.example.ISAproject.dto.ReservationQrDTO;
 import com.example.ISAproject.dto.ViewReservationDTO;
 import com.example.ISAproject.dto.UserDto;
 import com.example.ISAproject.enums.AppointmentStatus;
@@ -168,7 +170,16 @@ public class ReservationService {
 		
 	}
 
-
-
+	public List<Reservation> getAllWithQr(int userId) {
+		List<Reservation> reservations = new ArrayList<Reservation>();
+		
+		for(var r : reservationRepository.findAll()) {
+			if(r.getUser().getId() == userId) {
+				reservations.add(r);
+			}
+		}
+		
+		return reservations;
+	}
 	
 }
