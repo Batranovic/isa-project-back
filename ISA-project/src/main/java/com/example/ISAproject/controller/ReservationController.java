@@ -86,12 +86,12 @@ public class ReservationController {
 
 	 reservationService.cancelReservation(reservationId, userId);
 	}
-	
+	/*
 	@GetMapping("/withQr/{userId}")
 	public ResponseEntity<List<ReservationQrDTO>> getAllWithQr(@PathVariable int userId) {
 		List<Reservation> reservations = reservationService.getAllWithQr(userId);
 		List<ReservationQrDTO> reservationsDTO = reservations.stream().map(ReservationQrDTO::new).collect(Collectors.toList());
 		return new ResponseEntity<>(reservationsDTO, HttpStatus.OK);
 	}
-	
+	*/
 }
