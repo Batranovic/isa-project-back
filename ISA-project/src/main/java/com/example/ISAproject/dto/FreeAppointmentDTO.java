@@ -4,10 +4,12 @@ import java.time.LocalDateTime;
 
 import com.example.ISAproject.enums.AppointmentStatus;
 import com.example.ISAproject.model.Appointment;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class FreeAppointmentDTO {
 	private int id;
 	private int companyAdminId;
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private LocalDateTime dateAndTime;
 	private int duration;
 	private AppointmentStatus status;

@@ -19,8 +19,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.ISAproject.dto.RegisteredUserDTO;
 import com.example.ISAproject.dto.RegistrationDTO;
 import com.example.ISAproject.dto.UserDto;
+import com.example.ISAproject.model.RegisteredUser;
 import com.example.ISAproject.model.User;
 import com.example.ISAproject.service.EmailService;
 import com.example.ISAproject.service.UserService;
@@ -47,6 +49,18 @@ public class UserController {
 		}
 
 		return new ResponseEntity<UserDto>(new UserDto(user), HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "registered/{id}")
+	public ResponseEntity<RegisteredUserDTO> getRegisteredUser(@PathVariable Integer id) {
+
+		RegisteredUser user = userService.findOneRegistered(id);
+
+		if (user == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+
+		return new ResponseEntity<RegisteredUserDTO>(new RegisteredUserDTO(user), HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/all")

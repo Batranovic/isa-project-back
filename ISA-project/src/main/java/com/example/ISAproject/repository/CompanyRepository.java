@@ -11,7 +11,7 @@ import com.example.ISAproject.model.Role;
 
 public interface CompanyRepository extends JpaRepository<Company, Integer>  {
 
-	List<Company> findByNameContainingAndAddressContainingAndAverageGradeBetween(String name, String address, double minGrade, double maxGrade);
+	List<Company> findByNameContainingIgnoreCaseAndAddressContainingIgnoreCaseAndAverageGradeBetween(String name, String address, double minGrade, double maxGrade);
 	
-	List<Company> findByNameContainingAndAddressContaining(String name, String address);
+	List<Company> findByNameContainingIgnoreCaseAndAddressContainingIgnoreCase(String name, String address);
 }

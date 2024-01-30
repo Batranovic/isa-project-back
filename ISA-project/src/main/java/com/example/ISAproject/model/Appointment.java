@@ -21,6 +21,9 @@ import javax.persistence.Version;
 import javax.validation.constraints.NotEmpty;
 
 import com.example.ISAproject.enums.AppointmentStatus;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 
 @Entity
@@ -36,6 +39,7 @@ public class Appointment {
     private CompanyAdmin companyAdmin;
 		
 	@Column(name = "start_date", nullable = false)
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private LocalDateTime dateAndTime;
 	
 	@Column(name = "duration", nullable = false)
@@ -76,7 +80,8 @@ public class Appointment {
 	public void setCompanyAdmin(CompanyAdmin companyAdmin) {
 		this.companyAdmin = companyAdmin;
 	}
-
+	
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	public LocalDateTime getDateAndTime() {
 		return dateAndTime;
 	}

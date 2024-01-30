@@ -38,9 +38,9 @@ public class CompanyService {
 
 	public List<Company> search(CompanySearchDto searchDto) {
 		if(searchDto.getAverageGradeFrom() == 0) {
-			return companyRepository.findByNameContainingAndAddressContaining(searchDto.getName(), searchDto.getAddress());
+			return companyRepository.findByNameContainingIgnoreCaseAndAddressContainingIgnoreCase(searchDto.getName(), searchDto.getAddress());
 		}
-		return companyRepository.findByNameContainingAndAddressContainingAndAverageGradeBetween(searchDto.getName(), searchDto.getAddress(), searchDto.getAverageGradeFrom(), searchDto.getAverageGradeTo());
+		return companyRepository.findByNameContainingIgnoreCaseAndAddressContainingIgnoreCaseAndAverageGradeBetween(searchDto.getName(), searchDto.getAddress(), searchDto.getAverageGradeFrom(), searchDto.getAverageGradeTo());
 		
 	}
 	public Set<Equipment> getEquipmentsForCompany(int companyId) {

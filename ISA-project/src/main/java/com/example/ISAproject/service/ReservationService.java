@@ -166,9 +166,9 @@ public class ReservationService {
 	    LocalDateTime reservationDateTime = reservation.getAppointment().getDateAndTime();
 
 	    if (currentDateTime.isAfter(reservationDateTime.minusHours(24))) {
-	        registeredUser.setPenalPoints(registeredUser.getPenalPoints() - 2);
+	        registeredUser.setPenalPoints(registeredUser.getPenalPoints() + 2);
 	    } else {
-	        registeredUser.setPenalPoints(registeredUser.getPenalPoints() - 1);
+	        registeredUser.setPenalPoints(registeredUser.getPenalPoints() + 1);
 	    }
 
 	   

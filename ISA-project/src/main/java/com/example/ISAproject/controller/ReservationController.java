@@ -90,6 +90,14 @@ public class ReservationController {
 	        @PathVariable Integer userId) {
 	 reservationService.cancelReservation(reservationId, userId);
 	}
+	
+	@PutMapping("/claim/{reservationId}/{userId}")
+	public void claimReservation(
+			@PathVariable Integer reservationId,
+	        @PathVariable Integer userId) {
+	 reservationService.claimReservation(reservationId, userId);
+	}
+	
 	/*
 	@GetMapping("/withQr/{userId}")
 	public ResponseEntity<List<ReservationQrDTO>> getAllWithQr(@PathVariable int userId) {

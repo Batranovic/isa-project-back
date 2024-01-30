@@ -42,6 +42,10 @@ public class UserService {
 		return userRepository.findById(id).orElseGet(null);
 	}
 	
+	public RegisteredUser findOneRegistered(Integer id) {
+		return registeredUserRepository.findById(id).orElseGet(null);
+	}
+	
 	public List<User> findAll() {
 		return userRepository.findAll();
 	}
