@@ -8,6 +8,7 @@ public class ViewReservationDTO {
 	    private ReservationStatus status;
 	    private AppointmentDTO appointment;
 	    private int price;
+	    private String qrCode;
 	    
 	    public ViewReservationDTO(Reservation reservation)
 	    {
@@ -15,16 +16,18 @@ public class ViewReservationDTO {
 	        this.status = reservation.getStatus();
 	        this.appointment = new AppointmentDTO(reservation.getAppointment());
 	        this.price = reservation.getPrice();
+	        this.qrCode = reservation.getQrCode();
 	    }
 	    public ViewReservationDTO() {
 			super();
 		}
-		public ViewReservationDTO(int id, ReservationStatus status, AppointmentDTO appointment, int price) {
+		public ViewReservationDTO(int id, ReservationStatus status, AppointmentDTO appointment, int price, String qrCode) {
 			super();
 			this.id = id;
 			this.status = status;
 			this.appointment = appointment;
 			this.price = price;
+			this.qrCode = qrCode;
 		}
 		public int getId() {
 			return id;
@@ -49,6 +52,12 @@ public class ViewReservationDTO {
 		}
 		public void setPrice(int price) {
 			this.price = price;
+		}
+		public String getQrCode() {
+			return qrCode;
+		}
+		public void setQrCode(String qrCode) {
+			this.qrCode = qrCode;
 		}
 	    
 	    

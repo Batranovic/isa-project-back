@@ -156,6 +156,7 @@ public class ReservationService {
 	        viewReservation.setId(reservation.getId());
 	        viewReservation.setStatus(reservation.getStatus());
 	        viewReservation.setPrice(reservation.getPrice());
+	        viewReservation.setQrCode(reservation.getQrCode());
 
 	        AppointmentDTO appointmentDTO = new AppointmentDTO(reservation.getAppointment());
 	        viewReservation.setAppointment(appointmentDTO);
