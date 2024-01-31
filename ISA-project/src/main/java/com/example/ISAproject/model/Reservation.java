@@ -48,18 +48,22 @@ public class Reservation {
     @JoinColumn(name = "qrCode")
     private String qrCode;
     
+    @Column(name="price")
+    private int price;
+    
     public Reservation() { }
 
-	public Reservation(int id, ReservationStatus status, Set<Equipment> equipments, Appointment appointment, User user) {
+	public Reservation(int id, ReservationStatus status, Set<Equipment> equipments, Appointment appointment, User user, int price) {
 		super();
 		this.id = id;
 		this.status = status;
 		this.equipments = equipments;
 		this.appointment = appointment;
 		this.user = user;
+		this.price = price;
 	}
 
-	public Reservation(int id, ReservationStatus status, Set<Equipment> equipments, Appointment appointment, User user, String qrCode) {
+	public Reservation(int id, ReservationStatus status, Set<Equipment> equipments, Appointment appointment, User user, String qrCode, int price) {
 		super();
 		this.id = id;
 		this.status = status;
@@ -67,6 +71,7 @@ public class Reservation {
 		this.appointment = appointment;
 		this.user = user;
 		this.qrCode = qrCode;
+		this.price = price;
 	}
 	public int getId() {
 		return id;
@@ -114,6 +119,14 @@ public class Reservation {
 
 	public void setQrCode(String qrCode) {
 		this.qrCode = qrCode;
+	}
+
+	public int getPrice() {
+		return price;
+	}
+
+	public void setPrice(int price) {
+		this.price = price;
 	}
 
 

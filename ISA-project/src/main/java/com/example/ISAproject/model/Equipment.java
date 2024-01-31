@@ -35,9 +35,12 @@ public class Equipment {
 		@Version
 		private Integer version;
 		
+		@Column(name="price")
+		private int price;
+		
 	    public Equipment() { }
 
-	    public Equipment(int id, String name, String type, String description, int quantity, int reservedQuntity) {
+	    public Equipment(int id, String name, String type, String description, int quantity, int reservedQuntity, int price) {
 	        super();
 	        this.id = id;
 	        this.name = name;
@@ -45,9 +48,18 @@ public class Equipment {
 	        this.description = description;
 	        this.quantity = quantity;
 	        this.reservedQuantity = reservedQuantity;
+	        this.price = price;
 	    }
 
-	    public int getId() {
+	    public int getPrice() {
+			return price;
+		}
+
+		public void setPrice(int price) {
+			this.price = price;
+		}
+
+		public int getId() {
 	        return id;
 	    }
 

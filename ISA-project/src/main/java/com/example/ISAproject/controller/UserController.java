@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +25,9 @@ import com.example.ISAproject.dto.RegistrationDTO;
 import com.example.ISAproject.dto.UserDto;
 import com.example.ISAproject.model.RegisteredUser;
 import com.example.ISAproject.model.User;
+import com.example.ISAproject.repository.RegisteredUserRepository;
 import com.example.ISAproject.service.EmailService;
+import com.example.ISAproject.service.RegisteredUserService;
 import com.example.ISAproject.service.UserService;
 
 @RestController
@@ -38,6 +41,9 @@ public class UserController {
 	private EmailService emailService;
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private RegisteredUserService registeredUserService;	
 	
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<UserDto> getUser(@PathVariable Integer id) {
@@ -156,5 +162,11 @@ public class UserController {
 	 @GetMapping("/getByEmail/{email}")
 	    public User user(@PathVariable String email) {
 	        return this.userService.findByEmail(email);
+	    }
+	 
+	 @Scheduled(cron = "${greeting.cron}") // Pokreni svakog prvog dana u mesecu
+	    public void deletePenalties() {
+	        List<RegisteredUser> users = registeredUserService.findAll();
+	        registeredUserService.resetPenalties(users);
 	    }
 }

@@ -7,21 +7,24 @@ public class ViewReservationDTO {
 	  private int id;
 	    private ReservationStatus status;
 	    private AppointmentDTO appointment;
+	    private int price;
 	    
 	    public ViewReservationDTO(Reservation reservation)
 	    {
 	        this.id = reservation.getId();
 	        this.status = reservation.getStatus();
 	        this.appointment = new AppointmentDTO(reservation.getAppointment());
+	        this.price = reservation.getPrice();
 	    }
 	    public ViewReservationDTO() {
 			super();
 		}
-		public ViewReservationDTO(int id, ReservationStatus status, AppointmentDTO appointment) {
+		public ViewReservationDTO(int id, ReservationStatus status, AppointmentDTO appointment, int price) {
 			super();
 			this.id = id;
 			this.status = status;
 			this.appointment = appointment;
+			this.price = price;
 		}
 		public int getId() {
 			return id;
@@ -40,6 +43,12 @@ public class ViewReservationDTO {
 		}
 		public void setAppointment(AppointmentDTO appointment) {
 			this.appointment = appointment;
+		}
+		public int getPrice() {
+			return price;
+		}
+		public void setPrice(int price) {
+			this.price = price;
 		}
 	    
 	    

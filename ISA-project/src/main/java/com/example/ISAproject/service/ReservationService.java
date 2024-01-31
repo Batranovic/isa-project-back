@@ -59,7 +59,9 @@ public class ReservationService {
 	@Transactional
 	public Reservation createReservation(int appointmentId, List<ReservationRequest> reservationRequests, int userId) {
 	    List<Reservation> userReservations = reservationRepository.findByUser_id(userId);
-
+	    RegisteredUser registeredUser = registeredUserRepository.getById(userId);
+	    
+	   
 	    for (Reservation userReservation : userReservations) {
 	        Appointment userAppointment = userReservation.getAppointment();
 
@@ -74,6 +76,7 @@ public class ReservationService {
 	    }
 
 	    List<Equipment> equipments = new ArrayList<>();
+	    int totalPrice = 0;
 
 	    for (ReservationRequest reservationRequest : reservationRequests) {
 	        Integer equipmentId = reservationRequest.getEquipmentId();
@@ -90,7 +93,7 @@ public class ReservationService {
 	        equipment.setReservedQuantity(equipment.getReservedQuantity() + quantity);
 	        equipmentRepository.save(equipment);
 	        reservationRequestRepository.save(reservationRequest);
-	        
+	        totalPrice += equipment.getPrice() * quantity;
 	    }
 
 	    Appointment appointment = appointmentRepository.findById(appointmentId).orElse(null);
@@ -110,14 +113,22 @@ public class ReservationService {
 	    if (user == null) {
 	        return null;
 	    }
-
+	    
+	    reservation.setPrice(totalPrice);
+	    
 	    reservation.setUser(user);
 	    for (ReservationRequest reservationRequest : reservationRequests) {
 	    	reservationRequest.setReservation(reservation);
 	    	reservationRequestRepository.save(reservationRequest);
 	    }
+	    
+	   
+
 	    return reservationRepository.save(reservation);
 	}
+	
+
+
 	
 	private boolean isOverlap(Appointment existingAppointment, int newAppointmentId) {
 
@@ -144,6 +155,7 @@ public class ReservationService {
 	    	ViewReservationDTO viewReservation = new ViewReservationDTO();
 	        viewReservation.setId(reservation.getId());
 	        viewReservation.setStatus(reservation.getStatus());
+	        viewReservation.setPrice(reservation.getPrice());
 
 	        AppointmentDTO appointmentDTO = new AppointmentDTO(reservation.getAppointment());
 	        viewReservation.setAppointment(appointmentDTO);
