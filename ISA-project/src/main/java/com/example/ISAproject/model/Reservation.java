@@ -45,6 +45,9 @@ public class Reservation {
     @JoinColumn(name = "user_id")
     private User user;
     
+    @JoinColumn(name = "qrCode")
+    private String qrCode;
+    
     public Reservation() { }
 
 	public Reservation(int id, ReservationStatus status, Set<Equipment> equipments, Appointment appointment, User user) {
@@ -56,6 +59,15 @@ public class Reservation {
 		this.user = user;
 	}
 
+	public Reservation(int id, ReservationStatus status, Set<Equipment> equipments, Appointment appointment, User user, String qrCode) {
+		super();
+		this.id = id;
+		this.status = status;
+		this.equipments = equipments;
+		this.appointment = appointment;
+		this.user = user;
+		this.qrCode = qrCode;
+	}
 	public int getId() {
 		return id;
 	}
@@ -94,6 +106,14 @@ public class Reservation {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public String getQrCode() {
+		return qrCode;
+	}
+
+	public void setQrCode(String qrCode) {
+		this.qrCode = qrCode;
 	}
 
 

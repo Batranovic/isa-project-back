@@ -3,10 +3,12 @@ package com.example.ISAproject.dto;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 import com.example.ISAproject.enums.ReservationStatus;
+import com.example.ISAproject.model.Equipment;
 import com.example.ISAproject.model.Reservation;
 import com.example.ISAproject.service.EmailService;
 import com.google.zxing.BarcodeFormat;
@@ -16,39 +18,50 @@ import com.google.zxing.WriterException;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 
-public class ReservationQrDTO extends ReservationDTO{
+public class ReservationQrDTO {
 
-	private String qrCode;
-	
-	
-
-	public ReservationQrDTO() {
+	private int id;
+    private ReservationStatus status;
+    private UserDto user;
+    private String qrCode;
+	public ReservationQrDTO(int id, ReservationStatus status, UserDto user, String qrCode) {
 		super();
+		this.id = id;
+		this.status = status;
+		this.user = user;
+		this.qrCode = qrCode;
+	}
+    
+    public ReservationQrDTO(Reservation reservation) {
+    	super();
+    	this.id = reservation.getId();
+    	this.status = reservation.getStatus();
+    	this.user = new UserDto(reservation.getUser());
+    	this.qrCode = reservation.getQrCode();
+    }
+
+	public int getId() {
+		return id;
 	}
 
-	public byte[] generateQrCode(String content) throws WriterException, IOException {
-		int width = 300;
-		int height = 300;
-		
-		Map<EncodeHintType, Object> hints = new HashMap<>();
-		hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
-		
-		BitMatrix bitMatrix = new MultiFormatWriter().encode(content, BarcodeFormat.QR_CODE, width, height, hints);
-		
-		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-		MatrixToImageWriter.writeToStream(bitMatrix, "PNG", outputStream);
-			
-		return outputStream.toByteArray();
-	}
-	
-	public ReservationQrDTO(int id, ReservationStatus status, Set<EquipmentDTO> equipment, AppointmentDTO appointment,
-			UserDto user) {
-		super(id, status, equipment, appointment, user);
+	public void setId(int id) {
+		this.id = id;
 	}
 
-	public ReservationQrDTO(Reservation reservation) {
-		super(reservation);
-		qrCode = EmailService.generateQRCodeData(reservation);
+	public ReservationStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(ReservationStatus status) {
+		this.status = status;
+	}
+
+	public UserDto getUser() {
+		return user;
+	}
+
+	public void setUser(UserDto user) {
+		this.user = user;
 	}
 
 	public String getQrCode() {
@@ -58,9 +71,7 @@ public class ReservationQrDTO extends ReservationDTO{
 	public void setQrCode(String qrCode) {
 		this.qrCode = qrCode;
 	}
-	
-	
-	
-	
-	
+ 
+    
+    
 }

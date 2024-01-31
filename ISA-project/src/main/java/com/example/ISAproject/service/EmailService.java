@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import com.example.ISAproject.model.Equipment;
 import com.example.ISAproject.model.Reservation;
 import com.example.ISAproject.model.User;
+import com.example.ISAproject.repository.ReservationRepository;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
@@ -32,7 +33,10 @@ public class EmailService {
 
     @Autowired
     private Environment env;
-
+    
+    @Autowired
+    private ReservationService reservationService;
+    
     public EmailService(JavaMailSender javaMailSender, Environment env) {
         this.javaMailSender = javaMailSender;
         this.env = env;
@@ -89,7 +93,7 @@ public class EmailService {
         }
     }
 
-    public static String generateQRCodeData(Reservation reservation) {
+    public String generateQRCodeData(Reservation reservation) {
         StringBuilder qrCodeData = new StringBuilder();
         qrCodeData.append("User:").append(reservation.getUser().getName()).append(" | ");
         qrCodeData.append("Company Admin:").append(reservation.getAppointment().getCompanyAdmin().getUser().getName()).append(" | ");
@@ -99,6 +103,8 @@ public class EmailService {
         for (Equipment equipment : equipments) {
             qrCodeData.append("Equipment Name: ").append(equipment.getName()).append(" | ");
         }
+        reservation.setQrCode(qrCodeData.toString());
+        reservationService.update(reservation);
         return qrCodeData.toString();
     }
 

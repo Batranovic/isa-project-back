@@ -215,7 +215,7 @@ public class ReservationService {
 
 	        if (equipment != null) {
 	            equipment.setReservedQuantity(equipment.getReservedQuantity() - quantity);
-	            equipment.setQuantity(equipment.getQuantity() - quantity);
+	            equipment.setQuantity(equipment.getQuantity() - quantity < 0 ? 0 : equipment.getQuantity() - quantity);
 	            equipmentRepository.save(equipment);
 	        }
 	    }
@@ -224,5 +224,15 @@ public class ReservationService {
 	    reservation.setStatus(ReservationStatus.CLAIMED);
 	    reservationRepository.save(reservation);
 	    registeredUserRepository.save(registeredUser);
+	}
+	
+	public List<Reservation> getAllForUser(int userId) {
+		List<Reservation> reservations = reservationRepository.findByUser_id(userId);
+		return reservations;
+	}
+	
+	@Transactional
+	public void update(Reservation reservation) {
+		reservationRepository.save(reservation);
 	}
 }

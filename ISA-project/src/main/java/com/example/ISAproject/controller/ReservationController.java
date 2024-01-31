@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.ISAproject.dto.CompanyDto;
+import com.example.ISAproject.dto.FreeAppointmentDTO;
 import com.example.ISAproject.dto.ReservationDTO;
 import com.example.ISAproject.dto.ReservationQrDTO;
 import com.example.ISAproject.dto.UserDto;
@@ -67,6 +68,7 @@ public class ReservationController {
 	        try {
 	            System.out.println("Thread id: " + Thread.currentThread().getId());
 	            emailService.sendQRCode(user, reservation);
+	            
 	        } catch (Exception e) {
 	            logger.error("Greška prilikom slanja emaila: " + e.getMessage(), e);
 	        }
@@ -98,12 +100,12 @@ public class ReservationController {
 	 reservationService.claimReservation(reservationId, userId);
 	}
 	
-	/*
+
 	@GetMapping("/withQr/{userId}")
 	public ResponseEntity<List<ReservationQrDTO>> getAllWithQr(@PathVariable int userId) {
-		List<Reservation> reservations = reservationService.getAllWithQr(userId);
-		List<ReservationQrDTO> reservationsDTO = reservations.stream().map(ReservationQrDTO::new).collect(Collectors.toList());
-		return new ResponseEntity<>(reservationsDTO, HttpStatus.OK);
+		List<Reservation> reservations = reservationService.getAllForUser(userId);
+		List<ReservationQrDTO> dtos =  reservations.stream().map(ReservationQrDTO::new).collect(Collectors.toList());
+		return new ResponseEntity<>(dtos, HttpStatus.OK);
 	}
-	*/
+
 }
